@@ -37,39 +37,44 @@ const formTitle = computed(() => {
 function initialize() {
     productlist.value = [
         {
-            id: 'CU001',
-            product: 'Curology Face wash',
-            category: 'Beauty',
-            status: 'Instock',
-            price: '$275'
+            id: 'VS0111',
+            product: 'PT Cristiano Ronaldo',
+            category: '',
+            status: 'Jalan Bunga No 7',
+            price: '081264728361',
+            rekening: '3761889235'
         },
         {
-            id: 'BL002',
-            product: 'Body Lotion',
-            category: 'Beauty',
-            status: 'Out of Stock',
-            price: '$89'
+            id: 'VS0112',
+            product: 'PT Meja Tebal',
+            category: '',
+            status: 'Jalan Senayan No 7',
+            price: '081274628467',
+            rekening: '8375619837'
         },
         {
-            id: 'SW003',
-            product: 'Smart Watch',
-            category: 'Electronics',
-            status: 'Instock',
-            price: '$125'
+            id: 'VS0113',
+            product: 'PT Lionel Messi',
+            category: '',
+            status: 'Jalan Cijantung No 3',
+            price: '081274628477',
+            rekening: '6475118736'
         },
         {
-            id: 'CM004',
-            product: 'Camera',
-            category: 'Electronics',
-            status: 'Instock',
-            price: '$200'
+            id: 'VS0114',
+            product: 'PT Suarez',
+            category: '',
+            status: 'Jalan Promosi No 21',
+            price: '081263728744',
+            rekening: '7436229817'
         },
         {
-            id: 'GM005',
-            product: 'Games',
-            category: 'Electronics',
-            status: 'Out of Stock',
-            price: '$100'
+            id: 'VS0115',
+            product: 'PT Kopi Kina',
+            category: '',
+            status: 'Jalan Galaxy No 71',
+            price: '081262817823',
+            rekening: '6475274983'
         }
     ];
 }
