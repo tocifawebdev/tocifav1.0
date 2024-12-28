@@ -7,7 +7,7 @@ const contacts: KeyedObject[] = [];
 
 const fetchContacts = async () => {
     try {
-        const response = await axios.get('http://127.0.0.1:8000/usermanagement');
+        const response = await axios.get('http://127.0.0.1:8080/usermanagement');
         const fetchedContacts = response.data.map((item: any) => ({
             id: item.id || item.UserID, 
             avatar: '', 
@@ -28,7 +28,7 @@ const fetchContacts = async () => {
 
 const addContact = async (newContact: KeyedObject) => {
     try {
-        await axios.post('http://127.0.0.1:8000/usermanagement/', {
+        await axios.post('http://127.0.0.1:8080/usermanagement/', {
             user_level: newContact.role,
             username: newContact.userinfo,
             password: newContact.password,
@@ -42,7 +42,7 @@ const addContact = async (newContact: KeyedObject) => {
 
 const updateContact = async (updatedContact: KeyedObject) => {
     try {
-        await axios.put('http://127.0.0.1:8000/usermanagement/', {
+        await axios.put('http://127.0.0.1:8080/usermanagement/', {
             username: updatedContact.userinfo,
             user_level: updatedContact.role,
             email: updatedContact.usermail,
@@ -56,7 +56,7 @@ const updateContact = async (updatedContact: KeyedObject) => {
 
 const deleteContact = async (username: string) => {
     try {
-        await axios.delete('http://127.0.0.1:8000/usermanagement/', {
+        await axios.delete('http://127.0.0.1:8080/usermanagement/', {
             data: {
                 username,
                 add_user: 'admin'

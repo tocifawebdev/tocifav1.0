@@ -10,7 +10,7 @@ const headers = ref([
     { title: 'No', key: 'no', align: 'left' },
     { title: 'ID', key: 'id', align: 'left' },
     { title: 'Name', key: 'product', align: 'left' },
-    { title: 'NPWP', key: 'date', align: 'left' },
+    { title: 'NPW', key: 'date', align: 'left' },
     { title: 'Address', key: 'status', align: 'left' },
     { title: 'Contact', key: 'price', align: 'left' },
     { title: 'Rekening Perusahaan', key: 'rekening', align: 'left', sortable: false },
@@ -40,49 +40,44 @@ const formTitle = computed(() => {
 function initialize() {
     productlist.value = [
         {
-            id: 'VP0221',
-            product: 'PT Maju Bersama',
-            category: '12345',
-            date: '12345',
-            status: 'Jalan Teladan No 1',
-            price: '081262120723',
-            rekening: '6472198271'
+            id: 'CU001',
+            product: 'Curology Face wash',
+            category: 'Beauty',
+            date: 'Thu, Jan 12 2024',
+            status: 'Instock',
+            price: '$275'
         },
         {
-            id: 'VP0222',
-            product: 'PT Mundur Bersama',
-            category: '17312',
-            date: '17312',
-            status: 'Jalan Selayang No 10',
-            price: '081252731722',
-            rekening: '7361883728'
+            id: 'BL002',
+            product: 'Body Lotion',
+            category: 'Beauty',
+            date: 'Thu, Jan 20 2024',
+            status: 'Out of Stock',
+            price: '$89'
         },
         {
-            id: 'VP0223',
-            product: 'PT Keong',
-            category: '12345',
-            date: '83718',
-            status: 'Jalan Setiabudi No 2',
-            price: '081235130712',
-            rekening: '7318227649'
+            id: 'SW003',
+            product: 'Smart Watch',
+            category: 'Electronics',
+            date: 'Fri, Feb 15 2024',
+            status: 'Instock',
+            price: '$125'
         },
         {
-            id: 'VP0224',
-            product: 'PT Setrika',
-            category: '12345',
-            date: '83725',
-            status: 'Jalan Cipayung No 8',
-            price: '081262110823',
-            rekening: '8371882712'
+            id: 'CM004',
+            product: 'Camera',
+            category: 'Electronics',
+            date: 'Fri, March 30 2024',
+            status: 'Instock',
+            price: '$200'
         },
         {
-            id: 'VP0225',
-            product: 'PT Batu Bara',
-            category: '83719',
-            date: '138935',
-            status: 'Jalan Pemda No 1',
-            price: '081239121923',
-            rekening: '7361889283'
+            id: 'GM005',
+            product: 'Games',
+            category: 'Electronics',
+            date: 'Sat, March 30 2024',
+            status: 'Out of Stock',
+            price: '$100'
         }
     ];
 }

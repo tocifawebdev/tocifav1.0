@@ -22,6 +22,16 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      '/vendordata': { 
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/customerdata': { 
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
   build: {

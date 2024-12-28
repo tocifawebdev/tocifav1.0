@@ -25,9 +25,9 @@ class UserManagementAPI(APIView):
                 "username": row[2],
                 "email": row[3],
                 "password": row[4],
-                "add_time": row[5],
+                "add_time": row[5].strftime("%Y-%m-%d %H:%M:%S") if row[5] else None,
                 "add_user": row[6],
-                "upd_time": row[7],
+                "upd_time": row[7].strftime("%Y-%m-%d %H:%M:%S") if row[7] else None,
                 "upd_user": row[8],
             }
             for row in results
@@ -52,7 +52,7 @@ class UserManagementAPI(APIView):
     def put(self, request):
         data = JSONParser().parse(request)
         params = [
-            '', 'budiman', '',
+            '', 'budimanasdasd', '',
             '', data.get("user_level", ""),
             data.get("username", ""), data.get("password", ""),
             data.get("email", ""), 'yosephatigoran'
@@ -65,7 +65,7 @@ class UserManagementAPI(APIView):
     def delete(self, request):
         data = JSONParser().parse(request)
         params = [
-            '', data.get("username", ""), '', '',
+            '', 'budimanasdasd', '', '',
             '', '', '', '',
             'yosephatigoran'
         ]

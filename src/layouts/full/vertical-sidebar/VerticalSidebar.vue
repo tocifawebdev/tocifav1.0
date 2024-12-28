@@ -26,7 +26,7 @@ const sidebarMenu = shallowRef(sidebarItems);
         expand-on-hover width="270"
     >
         <!---Logo part -->
-        <!-- <v-locale-provider  v-if="customizer.setRTLLayout"  rtl >
+        <v-locale-provider  v-if="customizer.setRTLLayout"  rtl >
         <div class="pa-5">
             <RtlLogo />
         </div>
@@ -35,7 +35,7 @@ const sidebarMenu = shallowRef(sidebarItems);
         <div class="pa-5">
             <Logo />
         </div>
-        </v-locale-provider> -->
+        </v-locale-provider>
 
         
         <!-- ---------------------------------------------- -->

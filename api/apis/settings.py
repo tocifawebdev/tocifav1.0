@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+APPEND_SLASH = True
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
@@ -82,13 +84,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'tocifa',
-        'USER': 'django_user',
-        'PASSWORD': 'secure_password',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'USER': 'root',
+        'PASSWORD': 'Tocifa123..!',
+        'HOST': '127.0.0.1',
+        'PORT': '3307',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
