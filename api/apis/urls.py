@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from django.urls import re_path
+from .views.login import LoginAPI
 from .views.usermanagement import UserManagementAPI
 from .views.vendordata import VendorDataAPI
 from .views.customerdata import CustomerDataAPI
@@ -13,6 +14,7 @@ def home_view(request):
 urlpatterns = [
     path('', home_view, name='home'),  # Route untuk halaman utama
     path('admin/', admin.site.urls),
+    path('login/', LoginAPI.as_view(), name='login'),
     path('usermanagement/', UserManagementAPI.as_view(), name='user_management'),
     re_path(r'^usermanagement$', UserManagementAPI.as_view(), name='user_management_no_slash'),
     path('vendordata/', VendorDataAPI.as_view(), name='vendor_data'),
