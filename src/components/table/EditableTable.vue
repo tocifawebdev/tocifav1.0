@@ -28,7 +28,8 @@ const editedItem = ref<User>({
   userinfo: '',
   usermail: '',
   phone: '',
-  role: 'Admin',
+  jdate: '',
+  role: 'Select Role',
   password: '',
   rolestatus: 'rgba(255, 0, 0, 0.2)',
 });
@@ -53,7 +54,6 @@ async function deleteItem(item: User) {
     if (confirm('Are you sure you want to delete this user?')) {
         try {
             await deleteContact(item.userinfo);
-            // Refresh list after delete
             desserts.value = await fetchContacts();
         } catch (error) {
             console.error('Failed to delete user:', error);
@@ -70,8 +70,9 @@ function close() {
             userinfo: '',
             usermail: '',
             phone: '',
+            jdate: '',
             role: 'Admin',
-            password: '',
+            password: '123456',
             rolestatus: 'rgba(255, 0, 0, 0.2)',
         };
         editedIndex.value = -1;
@@ -85,7 +86,6 @@ async function save() {
         } else {
             await addContact(editedItem.value);
         }
-        // Refresh list after save
         desserts.value = await fetchContacts();
         close();
     } catch (error) {
@@ -143,17 +143,8 @@ const formTitle = computed(() => (editedIndex.value === -1 ? 'New User' : 'Edit 
                                     <v-text-field
                                         variant="outlined"
                                         hide-details
-                                        v-model="editedItem.phone"
-                                        label="Phone"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col cols="12" sm="6">
-                                    <v-text-field
-                                        variant="outlined"
-                                        hide-details
                                         v-model="editedItem.password"
                                         label="Password"
-                                        type="password"
                                     ></v-text-field>
                                 </v-col>
                                 <v-col cols="12" sm="6">
@@ -162,7 +153,7 @@ const formTitle = computed(() => (editedIndex.value === -1 ? 'New User' : 'Edit 
                                         hide-details
                                         :items="rolesbg"
                                         v-model="editedItem.role"
-                                        label="Role Background"
+                                        label="Role"
                                     ></v-select>
                                 </v-col>
                             </v-row>
@@ -174,7 +165,7 @@ const formTitle = computed(() => (editedIndex.value === -1 ? 'New User' : 'Edit 
                         <v-btn color="error" @click="close">Cancel</v-btn>
                         <v-btn
                             color="secondary"
-                            :disabled="editedItem.userinfo === '' || editedItem.usermail === '' || editedItem.password === ''"
+                            :disabled="editedItem.userinfo === '' || editedItem.usermail === ''"
                             variant="flat"
                             @click="save"
                         >Save</v-btn>
@@ -188,8 +179,9 @@ const formTitle = computed(() => (editedIndex.value === -1 ? 'New User' : 'Edit 
             <tr>
                 <th class="text-subtitle-1 font-weight-semibold">No</th>
                 <th class="text-subtitle-1 font-weight-semibold">Name</th>
-                <th class="text-subtitle-1 font-weight-semibold">Phone</th>
+                <th class="text-subtitle-1 font-weight-semibold">ID</th>
                 <th class="text-subtitle-1 font-weight-semibold">Password</th>
+                <th class="text-subtitle-1 font-weight-semibold">Joining Date</th>
                 <th class="text-subtitle-1 font-weight-semibold">Role</th>
                 <th class="text-subtitle-1 font-weight-semibold">Actions</th>
             </tr>
@@ -199,7 +191,9 @@ const formTitle = computed(() => (editedIndex.value === -1 ? 'New User' : 'Edit 
                 <td class="text-subtitle-1">{{ index + 1 }}</td>
                 <td>
                     <div class="d-flex align-center py-4">
-                        <v-img :src="item.avatar" width="45px" class="rounded-circle img-fluid"></v-img>
+                        <div>
+                            <v-img :src="item.avatar" width="45px" class="rounded-circle img-fluid"></v-img>
+                        </div>
                         <div class="ml-5">
                             <h4 class="text-h6 font-weight-semibold">{{ item.userinfo }}</h4>
                             <span class="text-subtitle-1 d-block mt-1 textSecondary">{{ item.usermail }}</span>
@@ -208,6 +202,7 @@ const formTitle = computed(() => (editedIndex.value === -1 ? 'New User' : 'Edit 
                 </td>
                 <td class="text-subtitle-1">{{ item.phone }}</td>
                 <td class="text-subtitle-1">{{ item.password }}</td>
+                <td class="text-subtitle-1">{{ item.jdate }}</td>
                 <td>
                     <v-chip :style="{ backgroundColor: item.rolestatus }" size="small" label>
                         {{ item.role }}
