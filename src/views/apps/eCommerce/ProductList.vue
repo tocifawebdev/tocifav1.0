@@ -1,9 +1,10 @@
 <script setup>
-import { computed, nextTick, ref, watch } from 'vue';
-import { EditIcon, PointFilledIcon, TrashIcon } from 'vue-tabler-icons';
+import { ref, computed, onMounted } from 'vue';
+import { fetchCustomers, addCustomer, updateCustomer, deleteCustomer } from '@/_mockApis/apps/ecommerce/indexCustomer';
+import { EditIcon, TrashIcon } from 'vue-tabler-icons';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
 
-const search = ref();
+const search = ref('');
 const dialog = ref(false);
 const dialogDelete = ref(false);
 const headers = ref([
@@ -26,104 +27,91 @@ const editedItem = ref({
     price: '',
     rekening: ''
 });
-const defaultItem = ref({
+const defaultItem = {
     id: '',
     product: '',
     date: '',
     status: '',
     price: '',
     rekening: ''
-});
+};
+
 const formTitle = computed(() => {
     return editedIndex.value === -1 ? 'New Customer' : 'Edit Customer';
 });
-function initialize() {
-    productlist.value = [
-        {
-            id: 'CU001',
-            product: 'Curology Face wash',
-            category: 'Beauty',
-            date: 'Thu, Jan 12 2024',
-            status: 'Instock',
-            price: '$275'
-        },
-        {
-            id: 'BL002',
-            product: 'Body Lotion',
-            category: 'Beauty',
-            date: 'Thu, Jan 20 2024',
-            status: 'Out of Stock',
-            price: '$89'
-        },
-        {
-            id: 'SW003',
-            product: 'Smart Watch',
-            category: 'Electronics',
-            date: 'Fri, Feb 15 2024',
-            status: 'Instock',
-            price: '$125'
-        },
-        {
-            id: 'CM004',
-            product: 'Camera',
-            category: 'Electronics',
-            date: 'Fri, March 30 2024',
-            status: 'Instock',
-            price: '$200'
-        },
-        {
-            id: 'GM005',
-            product: 'Games',
-            category: 'Electronics',
-            date: 'Sat, March 30 2024',
-            status: 'Out of Stock',
-            price: '$100'
-        }
-    ];
+
+async function initialize() {
+    try {
+        const response = await fetchCustomers();
+        productlist.value = response.map((item) => ({
+            id: item.id,
+            product: item.product,
+            date: item.date,
+            status: item.status,
+            price: item.price,
+            rekening: item.rekening,
+        }));
+    } catch (error) {
+        console.error('Failed to fetch customers:', error);
+    }
 }
+
 function editItem(item) {
     editedIndex.value = productlist.value.indexOf(item);
-    editedItem.value = Object.assign({}, item);
+    editedItem.value = { ...item };
     dialog.value = true;
 }
-function deleteItem(item) {
+
+async function deleteItem(item) {
     editedIndex.value = productlist.value.indexOf(item);
-    editedItem.value = Object.assign({}, item);
+    editedItem.value = { ...item };
     dialogDelete.value = true;
 }
-function deleteItemConfirm() {
-    productlist.value.splice(editedIndex.value, 1);
-    closeDelete();
+
+async function deleteItemConfirm() {
+    try {
+        await deleteCustomer(editedItem.value.id);
+        productlist.value.splice(editedIndex.value, 1); // Hapus data langsung dari list
+        closeDelete();
+    } catch (error) {
+        console.error('Failed to delete customer:', error);
+    }
 }
+
 function close() {
     dialog.value = false;
-    nextTick(() => {
-        editedItem.value = Object.assign({}, defaultItem.value);
-        editedIndex.value = -1;
-    });
+    Object.assign(editedItem.value, defaultItem);
+    editedIndex.value = -1;
 }
+
 function closeDelete() {
     dialogDelete.value = false;
-    nextTick(() => {
-        editedItem.value = Object.assign({}, defaultItem.value);
-        editedIndex.value = -1;
-    });
+    Object.assign(editedItem.value, defaultItem);
+    editedIndex.value = -1;
 }
-function save() {
-    if (editedIndex.value > -1) {
-        Object.assign(productlist.value[editedIndex.value], editedItem.value);
-    } else {
-        productlist.value.push(editedItem.value);
+
+async function save() {
+    try {
+        if (editedIndex.value > -1) {
+            // Update data pelanggan
+            await updateCustomer(editedItem.value);
+            Object.assign(productlist.value[editedIndex.value], editedItem.value);
+        } else {
+            // Tambah pelanggan baru
+            const newCustomer = { ...editedItem.value };
+            delete newCustomer.id; // Hapus ID karena akan dibuat otomatis oleh backend
+            await addCustomer(newCustomer);
+            await initialize(); // Refresh data setelah penambahan
+        }
+        close();
+    } catch (error) {
+        console.error('Failed to save customer:', error);
     }
-    close();
 }
-watch(dialog, (val) => {
-    val || close();
+
+onMounted(() => {
+    initialize();
 });
-watch(dialogDelete, (val) => {
-    val || closeDelete();
-});
-initialize();
 </script>
 
 <template>
@@ -207,16 +195,13 @@ initialize();
                                         <span class="text-h5">{{ formTitle }}</span>
                                     </v-card-title>
                                     <v-card-text>
-                                        <v-container class="px-0">
+                                        <v-container>
                                             <v-row>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.id" label="ID"></v-text-field>
-                                                </v-col>
                                                 <v-col cols="12" sm="6" md="4">
                                                     <v-text-field v-model="editedItem.product" label="Name"></v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.date" label="NPW"></v-text-field>
+                                                    <v-text-field v-model="editedItem.date" label="NPWP"></v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="4">
                                                     <v-text-field v-model="editedItem.status" label="Address"></v-text-field>

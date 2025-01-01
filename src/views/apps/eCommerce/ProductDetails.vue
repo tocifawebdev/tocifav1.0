@@ -1,9 +1,10 @@
 <script setup>
-import { computed, nextTick, ref, watch } from 'vue';
-import { EditIcon, PointFilledIcon, TrashIcon } from 'vue-tabler-icons';
+import { ref, computed, onMounted } from 'vue';
+import { EditIcon, TrashIcon } from 'vue-tabler-icons';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
+import { fetchVendors, addVendor, updateVendor, deleteVendor } from '@/_mockApis/apps/ecommerce/indexVendor';
 
-const search = ref();
+const search = ref('');
 const dialog = ref(false);
 const dialogDelete = ref(false);
 const headers = ref([
@@ -24,98 +25,83 @@ const editedItem = ref({
     price: '',
     rekening: ''
 });
-const defaultItem = ref({
+const defaultItem = {
     id: '',
     product: '',
     status: '',
     price: '',
     rekening: ''
-});
-const formTitle = computed(() => {
-    return editedIndex.value === -1 ? 'New Vendor' : 'Edit Vendor';
-});
-function initialize() {
-    productlist.value = [
-        {
-            id: 'CU001',
-            product: 'Curology Face wash',
-            category: 'Beauty',
-            status: 'Instock',
-            price: '$275'
-        },
-        {
-            id: 'BL002',
-            product: 'Body Lotion',
-            category: 'Beauty',
-            status: 'Out of Stock',
-            price: '$89'
-        },
-        {
-            id: 'SW003',
-            product: 'Smart Watch',
-            category: 'Electronics',
-            status: 'Instock',
-            price: '$125'
-        },
-        {
-            id: 'CM004',
-            product: 'Camera',
-            category: 'Electronics',
-            status: 'Instock',
-            price: '$200'
-        },
-        {
-            id: 'GM005',
-            product: 'Games',
-            category: 'Electronics',
-            status: 'Out of Stock',
-            price: '$100'
-        }
-    ];
+};
+
+const formTitle = computed(() => (editedIndex.value === -1 ? 'New Vendor' : 'Edit Vendor'));
+
+async function initialize() {
+    try {
+        const data = await fetchVendors();
+        productlist.value = data.map((item) => ({
+            id: item.id,
+            product: item.name,
+            status: item.address,
+            price: item.phone,
+            rekening: item.bank_account,
+        }));
+    } catch (error) {
+        console.error('Failed to fetch vendors:', error);
+    }
 }
+
 function editItem(item) {
     editedIndex.value = productlist.value.indexOf(item);
-    editedItem.value = Object.assign({}, item);
+    editedItem.value = { ...item };
     dialog.value = true;
 }
-function deleteItem(item) {
+
+async function deleteItem(item) {
     editedIndex.value = productlist.value.indexOf(item);
-    editedItem.value = Object.assign({}, item);
+    editedItem.value = { ...item };
     dialogDelete.value = true;
 }
-function deleteItemConfirm() {
-    productlist.value.splice(editedIndex.value, 1);
-    closeDelete();
+
+async function deleteItemConfirm() {
+    try {
+        await deleteVendor(editedItem.value.id);
+        productlist.value.splice(editedIndex.value, 1);
+        closeDelete();
+    } catch (error) {
+        console.error('Failed to delete vendor:', error);
+    }
 }
+
 function close() {
     dialog.value = false;
-    nextTick(() => {
-        editedItem.value = Object.assign({}, defaultItem.value);
-        editedIndex.value = -1;
-    });
+    Object.assign(editedItem.value, defaultItem);
+    editedIndex.value = -1;
 }
+
 function closeDelete() {
     dialogDelete.value = false;
-    nextTick(() => {
-        editedItem.value = Object.assign({}, defaultItem.value);
-        editedIndex.value = -1;
-    });
+    Object.assign(editedItem.value, defaultItem);
+    editedIndex.value = -1;
 }
-function save() {
-    if (editedIndex.value > -1) {
-        Object.assign(productlist.value[editedIndex.value], editedItem.value);
-    } else {
-        productlist.value.push(editedItem.value);
+
+async function save() {
+    try {
+        if (editedIndex.value > -1) {
+            await updateVendor(editedItem.value);
+            Object.assign(productlist.value[editedIndex.value], editedItem.value);
+        } else {
+            const newVendor = { ...editedItem.value };
+            delete newVendor.id;
+            await addVendor(newVendor);
+            await initialize();
+        }
+        close();
+    } catch (error) {
+        console.error('Failed to save vendor:', error);
     }
-    close();
 }
-watch(dialog, (val) => {
-    val || close();
-});
-watch(dialogDelete, (val) => {
-    val || closeDelete();
-});
-initialize();
+
+onMounted(initialize);
 </script>
 
 <template>

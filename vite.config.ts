@@ -12,16 +12,27 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/usermanagement': {
-        target: 'http://127.0.0.1:8080',
-        changeOrigin: true,
-        secure: false,
-      },
       '/login': { 
         target: 'http://127.0.0.1:8080',
         changeOrigin: true,
         secure: false,
       },
+      '/usermanagement': {
+        target: 'http://127.0.0.1:8080',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/vendordata': { 
+        target: 'http://127.0.0.1:8080',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/customerdata': { 
+        target: 'http://127.0.0.1:8080',
+        changeOrigin: true,
+        secure: false,
+      },
+
     },
   },
   build: {

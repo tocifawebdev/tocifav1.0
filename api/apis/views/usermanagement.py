@@ -25,7 +25,7 @@ class UserManagementAPI(APIView):
                 "username": row[2],
                 "email": row[3],
                 "password": row[4],
-                "add_time": row[5],
+                "add_time": row[5].strftime("%Y-%m-%d %H:%M:%S") if row[5] else None,
                 "add_user": row[6],
                 "upd_time": row[7],
                 "upd_user": row[8],
