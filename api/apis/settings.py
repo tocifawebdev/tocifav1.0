@@ -3,7 +3,7 @@ from pathlib import Path
 from decouple import config
 
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Build paths inside the project like this: BASE_DIR / 'subdir'.asd
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
