@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(x7eu%r!-l8yoiyae28$^_a$r@y-#2!stt&g3px)+z#0j361q1'
+SECRET_KEY = config('SECRET_KEY', default='fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -20,7 +20,11 @@ ALLOWED_HOSTS = ['*']
 
 APPEND_SLASH = True
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  
+    "http://127.0.0.1:8000",
+]
 
 # Application definition
 
@@ -75,12 +79,12 @@ WSGI_APPLICATION = 'apis.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tocifa',
-        'USER': 'root',
-        'PASSWORD': 'Tocifa123..!',
-        'HOST': '127.0.0.1',
-        'PORT': '3307',
+        'ENGINE':   'django.db.backends.mysql',
+        'NAME':     config('DB_NAME', default='tocifa'),
+        'USER':     config('DB_USER', default='root'),
+        'PASSWORD': config('DB_PASSWORD', default=''),
+        'HOST':     config('DB_HOST', default='127.0.0.1'),
+        'PORT':     config('DB_PORT', default='3306'),
     }
 }
 
@@ -100,11 +104,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
-]
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  
-    "http://127.0.0.1:8000",
 ]
 
 REST_FRAMEWORK = {

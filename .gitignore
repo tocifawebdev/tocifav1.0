@@ -1,3 +1,4 @@
 
 /node_modules
 /api/apis/settings.py
+/api/.env
