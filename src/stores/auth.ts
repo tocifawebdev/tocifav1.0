@@ -1,38 +1,43 @@
 import { defineStore } from 'pinia';
-import { router } from '@/router';
 import { fetchWrapper } from '@/utils/helpers/fetch-wrapper';
+import { router } from '@/router';
 
-const baseUrl = `${import.meta.env.VITE_API_URL}/login`;
+const baseUrl = 'http://127.0.0.1:8000';
 
 export const useAuthStore = defineStore({
     id: 'auth',
     state: () => ({
-        // initialize state from local storage to enable user to stay logged in
-        user: JSON.parse(localStorage.getItem('user') || 'null'),
-        returnUrl: null
+        user: JSON.parse(localStorage.getItem('user') || 'null'), // Save User and Token
     }),
     actions: {
         async login(userid: string, password: string) {
             try {
-                // Mengirimkan POST request ke endpoint login
-                const response = await fetchWrapper.post(baseUrl, { userid, password });
+                const user = await fetchWrapper.post(`${baseUrl}/login/`, { userid, password });
                 
-                // update pinia state dengan data user
-                this.user = response.user;
+                if (!user || !user.token) {
+                    throw new Error('Invalid login response from server');
+                }
 
-                // Menyimpan user details di local storage
-                localStorage.setItem('user', JSON.stringify(response.user));
+                this.user = user;
 
-                // Redirect ke halaman sebelumnya atau default dashboard
-                router.push(this.returnUrl || '/dashboards/modern');
+                // Save User and Token in local storage
+                localStorage.setItem('user', JSON.stringify(user));
+
+                // Redirect page
+                router.push('/dashboards/modern');
             } catch (error: any) {
-                throw error?.message || 'Login failed';
+                console.error(error);
+                throw new Error(error?.message || 'Invalid login credentials');
             }
         },
         logout() {
             this.user = null;
+
+            // Delete user data dari local storage
             localStorage.removeItem('user');
-            router.push('/');
-        }
-    }
+
+            // Redirect to login page
+            router.push('/login');
+        },
+    },
 });

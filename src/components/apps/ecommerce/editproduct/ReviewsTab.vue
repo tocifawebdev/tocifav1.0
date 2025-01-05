@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ProductreviewData } from '@/_mockApis/apps/ecommerce/Editproduc';
+import { ProductreviewData } from '@/_mockApis/apps/supplymanagement/Editproduc';
 </script>
 <template>
     <div class="pa-1">

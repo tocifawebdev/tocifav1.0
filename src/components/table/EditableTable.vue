@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { fetchContacts, addContact, updateContact, deleteContact } from '@/_mockApis/apps/contact';
+import { fetchContacts, addContact, updateContact, deleteContact } from '@/_mockApis/apps/usermanagement/indexUsermanagement';
 
 interface User {
     id: string;
@@ -8,6 +8,7 @@ interface User {
     userinfo: string;
     usermail: string;
     phone: string;
+    jdate: string;
     role: string;
     password: string;
     rolestatus: string;
@@ -71,8 +72,8 @@ function close() {
             usermail: '',
             phone: '',
             jdate: '',
-            role: 'Admin',
-            password: '123456',
+            role: 'Select Role',
+            password: '',
             rolestatus: 'rgba(255, 0, 0, 0.2)',
         };
         editedIndex.value = -1;

@@ -1,9 +1,10 @@
 <script setup>
-import { computed, nextTick, ref, watch } from 'vue';
-import { EditIcon, PointFilledIcon, TrashIcon } from 'vue-tabler-icons';
+import { ref, computed, onMounted } from 'vue';
+import { EditIcon, TrashIcon } from 'vue-tabler-icons';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
+import { fetchVendors, addVendor, updateVendor, deleteVendor } from '@/_mockApis/apps/supplymanagement/indexVendor';
 
-const search = ref();
+const search = ref('');
 const dialog = ref(false);
 const dialogDelete = ref(false);
 const headers = ref([
@@ -24,103 +25,83 @@ const editedItem = ref({
     price: '',
     rekening: ''
 });
-const defaultItem = ref({
+const defaultItem = {
     id: '',
     product: '',
     status: '',
     price: '',
     rekening: ''
-});
-const formTitle = computed(() => {
-    return editedIndex.value === -1 ? 'New Vendor' : 'Edit Vendor';
-});
-function initialize() {
-    productlist.value = [
-        {
-            id: 'VS0111',
-            product: 'PT Cristiano Ronaldo',
-            category: '',
-            status: 'Jalan Bunga No 7',
-            price: '081264728361',
-            rekening: '3761889235'
-        },
-        {
-            id: 'VS0112',
-            product: 'PT Meja Tebal',
-            category: '',
-            status: 'Jalan Senayan No 7',
-            price: '081274628467',
-            rekening: '8375619837'
-        },
-        {
-            id: 'VS0113',
-            product: 'PT Lionel Messi',
-            category: '',
-            status: 'Jalan Cijantung No 3',
-            price: '081274628477',
-            rekening: '6475118736'
-        },
-        {
-            id: 'VS0114',
-            product: 'PT Suarez',
-            category: '',
-            status: 'Jalan Promosi No 21',
-            price: '081263728744',
-            rekening: '7436229817'
-        },
-        {
-            id: 'VS0115',
-            product: 'PT Kopi Kina',
-            category: '',
-            status: 'Jalan Galaxy No 71',
-            price: '081262817823',
-            rekening: '6475274983'
-        }
-    ];
+};
+
+const formTitle = computed(() => (editedIndex.value === -1 ? 'New Vendor' : 'Edit Vendor'));
+
+async function initialize() {
+    try {
+        const data = await fetchVendors();
+        productlist.value = data.map((item) => ({
+            id: item.id,
+            product: item.product,
+            status: item.status,
+            price: item.price,
+            rekening: item.rekening,
+        }));
+    } catch (error) {
+        console.error('Failed to fetch vendors:', error);
+    }
 }
+
 function editItem(item) {
     editedIndex.value = productlist.value.indexOf(item);
-    editedItem.value = Object.assign({}, item);
+    editedItem.value = { ...item };
     dialog.value = true;
 }
-function deleteItem(item) {
+
+async function deleteItem(item) {
     editedIndex.value = productlist.value.indexOf(item);
-    editedItem.value = Object.assign({}, item);
+    editedItem.value = { ...item };
     dialogDelete.value = true;
 }
-function deleteItemConfirm() {
-    productlist.value.splice(editedIndex.value, 1);
-    closeDelete();
+
+async function deleteItemConfirm() {
+    try {
+        await deleteVendor(editedItem.value.id);
+        productlist.value.splice(editedIndex.value, 1);
+        closeDelete();
+    } catch (error) {
+        console.error('Failed to delete vendor:', error);
+    }
 }
+
 function close() {
     dialog.value = false;
-    nextTick(() => {
-        editedItem.value = Object.assign({}, defaultItem.value);
-        editedIndex.value = -1;
-    });
+    Object.assign(editedItem.value, defaultItem);
+    editedIndex.value = -1;
 }
+
 function closeDelete() {
     dialogDelete.value = false;
-    nextTick(() => {
-        editedItem.value = Object.assign({}, defaultItem.value);
-        editedIndex.value = -1;
-    });
+    Object.assign(editedItem.value, defaultItem);
+    editedIndex.value = -1;
 }
-function save() {
-    if (editedIndex.value > -1) {
-        Object.assign(productlist.value[editedIndex.value], editedItem.value);
-    } else {
-        productlist.value.push(editedItem.value);
+
+async function save() {
+    try {
+        if (editedIndex.value > -1) {
+            await updateVendor(editedItem.value);
+            Object.assign(productlist.value[editedIndex.value], editedItem.value);
+        } else {
+            const newVendor = { ...editedItem.value };
+            delete newVendor.id;
+            await addVendor(newVendor);
+            await initialize();
+        }
+        close();
+    } catch (error) {
+        console.error('Failed to save vendor:', error);
     }
-    close();
 }
-watch(dialog, (val) => {
-    val || close();
-});
-watch(dialogDelete, (val) => {
-    val || closeDelete();
-});
-initialize();
+
+onMounted(initialize);
 </script>
 
 <template>
@@ -202,24 +183,51 @@ initialize();
                                     <v-card-text>
                                         <v-container class="px-0">
                                             <v-row>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.id" label="ID"></v-text-field>
+                                                <!-- ID -->
+                                                <!-- <v-col cols="12">
+                                                    <v-text-field
+                                                        v-model="editedItem.id"
+                                                        label="ID"
+                                                        outlined
+                                                        disabled
+                                                    ></v-text-field>
+                                                </v-col> -->
+                                                <!-- Name -->
+                                                <v-col cols="12">
+                                                    <v-text-field
+                                                        v-model="editedItem.product"
+                                                        label="Name"
+                                                        outlined
+                                                    ></v-text-field>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.product" label="Name"></v-text-field>
+                                                <!-- Address -->
+                                                <v-col cols="12">
+                                                    <v-text-field
+                                                        v-model="editedItem.status"
+                                                        label="Address"
+                                                        outlined
+                                                    ></v-text-field>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.status" label="Address"></v-text-field>
+                                                <!-- Contact -->
+                                                <v-col cols="12">
+                                                    <v-text-field
+                                                        v-model="editedItem.price"
+                                                        label="Contact"
+                                                        outlined
+                                                    ></v-text-field>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.price" label="Contact"></v-text-field>
-                                                </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.rekening" label="Rekening Perusahaan"></v-text-field>
+                                                <!-- Rekening Perusahaan -->
+                                                <v-col cols="12">
+                                                    <v-text-field
+                                                        v-model="editedItem.rekening"
+                                                        label="Rekening Perusahaan"
+                                                        outlined
+                                                    ></v-text-field>
                                                 </v-col>
                                             </v-row>
                                         </v-container>
                                     </v-card-text>
+
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn color="error" variant="flat" dark @click="close">Cancel</v-btn>

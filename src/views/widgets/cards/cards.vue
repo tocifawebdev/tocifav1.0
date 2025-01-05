@@ -1,87 +1,236 @@
-<script setup lang="ts">
-import { ref } from 'vue';
-/* Breadcrumb component */
-import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import { EditIcon, TrashIcon } from 'vue-tabler-icons';
+import UiParentCard from '@/components/shared/UiParentCard.vue';
+// Simulasi fungsi API, jika Anda ingin tetap mempertahankan struktur
+// import { addVendor, updateVendor, deleteVendor } from '@/_mockApis/apps/ecommerce/indexVendor';
 
-/*Call Components*/
-import Topcards from "../../dashboard/dashboardComponents/modern/TopCards.vue";
-import PaymentGateways from "../../dashboard/dashboardComponents/ecommerce/PaymentGateways.vue";
-import RecentTransactions from "../../dashboard/dashboardComponents/ecommerce/RecentTransactions.vue";
-import BlogCards from "@/components/widgets/cards/BlogCards.vue";
-import ProductCards from "@/components/widgets/cards/ProductCards.vue";
-import MusicCards from "@/components/widgets/cards/MusicCards.vue";
-import FollowerCards from "@/components/widgets/cards/FollowerCards.vue";
-import UserCards from "@/components/widgets/cards/UserCards.vue";
-import ProfileCards from "@/components/widgets/cards/ProfileCards.vue";
-import Settings from "@/components/widgets/cards/Settings.vue";
-import GiftCards from "@/components/widgets/cards/GiftCards.vue";
-import UpcommingActivityCard from "@/components/widgets/cards/UpcommingActivityCard.vue";
+const search = ref('');
+const dialog = ref(false);
+const dialogDelete = ref(false);
+const headers = ref([
+    { title: 'No', key: 'no', align: 'left' },
+    { title: 'ID', key: 'id', align: 'left' },
+    { title: 'Item Name', key: 'product', align: 'left' },
+    { title: 'Unit', key: 'status', align: 'left' },
+    { title: 'Actions', key: 'actions', align: 'left', sortable: false }
+]);
 
-// theme breadcrumb
-const page = ref({ title: 'Cards' });
-const breadcrumbs = ref([
+const productlist = ref([
     {
-        text: 'Home',
-        disabled: false,
-        href: '#'
+        id: 'V001',
+        product: 'Printer Ink',
+        status: 'In Stock',
+        price: '120000',
+        rekening: '1234567890',
     },
     {
-        text: 'Cards',
-        disabled: true,
-        href: '#'
-    }
+        id: 'V002',
+        product: 'Paper A4',
+        status: 'Out of Stock',
+        price: '250000',
+        rekening: '9876543210',
+    },
+    {
+        id: 'V003',
+        product: 'Office Chair',
+        status: 'In Stock',
+        price: '750000',
+        rekening: '1122334455',
+    },
 ]);
+
+const editedIndex = ref(-1);
+const editedItem = ref({
+    id: '',
+    product: '',
+    status: '',
+    price: '',
+    rekening: ''
+});
+const defaultItem = {
+    id: '',
+    product: '',
+    status: '',
+    price: '',
+    rekening: ''
+};
+
+const formTitle = computed(() => (editedIndex.value === -1 ? 'New Item SO' : 'Edit Item SO'));
+
+function editItem(item) {
+    editedIndex.value = productlist.value.indexOf(item);
+    editedItem.value = { ...item };
+    dialog.value = true;
+}
+
+async function deleteItem(item) {
+    editedIndex.value = productlist.value.indexOf(item);
+    editedItem.value = { ...item };
+    dialogDelete.value = true;
+}
+
+async function deleteItemConfirm() {
+    try {
+        productlist.value.splice(editedIndex.value, 1);
+        closeDelete();
+    } catch (error) {
+        console.error('Failed to delete vendor:', error);
+    }
+}
+
+function close() {
+    dialog.value = false;
+    Object.assign(editedItem.value, defaultItem);
+    editedIndex.value = -1;
+}
+
+function closeDelete() {
+    dialogDelete.value = false;
+    Object.assign(editedItem.value, defaultItem);
+    editedIndex.value = -1;
+}
+
+async function save() {
+    try {
+        if (editedIndex.value > -1) {
+            Object.assign(productlist.value[editedIndex.value], editedItem.value);
+        } else {
+            const newVendor = { ...editedItem.value };
+            newVendor.id = `V00${productlist.value.length + 1}`; // Generate simple ID
+            productlist.value.push(newVendor);
+        }
+        close();
+    } catch (error) {
+        console.error('Failed to save vendor:', error);
+    }
+}
+
+onMounted(() => {
+    console.log('Dummy data loaded:', productlist.value);
+});
 </script>
+
+
 <template>
-    <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>        
     <v-row>
-        <!-- Top cards -->
         <v-col cols="12">
-            <Topcards/>
-        </v-col>
-        <!-- Blog cards -->
-        <v-col cols="12">
-            <BlogCards/>
-        </v-col>
-        <!-- Product cards -->
-        <v-col cols="12">
-            <ProductCards/>
-        </v-col>
-        <!-- Music cards -->
-        <v-col cols="12">
-            <MusicCards/>
-        </v-col>
-        <!-- Follower cards -->
-        <v-col cols="12">
-            <FollowerCards/>
-        </v-col>
-        <!-- User cards -->
-        <v-col cols="12">
-            <UserCards/>
-        </v-col>
-        <!-- Profile cards -->
-        <v-col cols="12">
-            <ProfileCards/>
-        </v-col>
-        <!-- Settings cards -->
-        <v-col cols="12" md="4">
-            <Settings/>
-        </v-col>
-        <!-- Gift cards -->
-        <v-col cols="12" md="8">
-            <GiftCards/>    
-        </v-col>
-        <!-- Payment Gateways card -->
-        <v-col cols="12" md="4">
-            <PaymentGateways/>   
-        </v-col>
-        <!-- Upcomming Activity card -->
-        <v-col cols="12" md="4">
-            <UpcommingActivityCard/>   
-        </v-col>
-        <!-- Recent Transactions -->
-        <v-col cols="12" md="4">
-            <RecentTransactions/>  
+            <UiParentCard title="Item SO">
+                <v-data-table
+                    class="rounded-md datatabels productlist"
+                    :headers="headers"
+                    :items="productlist"
+                    v-model:search="search"
+                    items-per-page="5"
+                    item-value="product"
+                    color="primary"
+                >
+                    <!-- Kolom No -->
+                    <template v-slot:item.no="{ index }">
+                        <span class="text-subtitle-1 text-left">{{ index + 1 }}</span>
+                    </template>
+                    <!-- Kolom ID -->
+                    <template v-slot:item.id="{ item }">
+                        <span class="text-subtitle-1 text-left">{{ item.id }}</span>
+                    </template>
+                    <!-- Kolom Name -->
+                    <template v-slot:item.product="{ item }">
+                        <span class="text-subtitle-1 text-left">{{ item.product }}</span>
+                    </template>
+                    <!-- Kolom Unit -->
+                    <template v-slot:item.status="{ item }">
+                        <span class="text-subtitle-1 text-left">{{ item.status }}</span>
+                    </template>
+                    <!-- Kolom Actions -->
+                    <template v-slot:item.actions="{ item }">
+                        <div class="d-flex gap-2 justify-left">
+                            <EditIcon
+                                height="20"
+                                width="20"
+                                class="text-primary cursor-pointer"
+                                size="small"
+                                @click="editItem(item)"
+                            />
+                            <TrashIcon
+                                height="20"
+                                width="20"
+                                class="text-error cursor-pointer"
+                                size="small"
+                                @click="deleteItem(item)"
+                            />
+                        </div>
+                    </template>
+                    <template v-slot:top>
+                        <v-toolbar class="bg-surface" flat>
+                            <v-dialog v-model="dialog" max-width="500px">
+                                <template v-slot:activator="{ props }">
+                                    <div class="d-md-flex block justify-space-between w-100 pb-6 align-left">
+                                        <v-text-field
+                                            v-model="search"
+                                            append-inner-icon="mdi-magnify"
+                                            label="Search"
+                                            single-line
+                                            hide-details
+                                            class="mb-md-0 mb-3"
+                                        />
+                                        <v-btn color="primary" variant="flat" dark v-bind="props">Add New Item SO</v-btn>
+                                    </div>
+                                </template>
+                                <v-card>
+                                    <v-card-title class="pa-4 bg-primary">
+                                        <span class="text-h5">{{ formTitle }}</span>
+                                    </v-card-title>
+                                    <v-card-text>
+                                        <v-container class="px-0">
+                                            <v-row>
+                                                <!-- Item Name -->
+                                                <v-col cols="12">
+                                                    <v-text-field
+                                                        v-model="editedItem.product"
+                                                        label="Item Name"
+                                                        placeholder="Enter Item Name"
+                                                    ></v-text-field>
+                                                </v-col>
+                                                <!-- Unit -->
+                                                <v-col cols="12">
+                                                    <v-text-field
+                                                        v-model="editedItem.status"
+                                                        label="Unit"
+                                                        placeholder="Enter Unit"
+                                                    ></v-text-field>
+                                                </v-col>
+                                            </v-row>
+                                        </v-container>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn color="error" variant="flat" dark @click="close">Cancel</v-btn>
+                                        <v-btn color="primary" variant="flat" dark @click="save">Save</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                            <v-dialog v-model="dialogDelete" max-width="500px">
+                                <v-card>
+                                    <v-card-title class="text-h5 text-left py-6">Are you sure you want to delete this item?</v-card-title>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn color="error" variant="flat" dark @click="closeDelete">Cancel</v-btn>
+                                        <v-btn color="primary" variant="flat" dark @click="deleteItemConfirm">OK</v-btn>
+                                        <v-spacer></v-spacer>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                        </v-toolbar>
+                    </template>
+                    <template v-slot:no-data>
+                        <v-btn color="primary" @click="initialize">Reset</v-btn>
+                    </template>
+                </v-data-table>
+            </UiParentCard>
         </v-col>
     </v-row>
 </template>
+
+
+
+

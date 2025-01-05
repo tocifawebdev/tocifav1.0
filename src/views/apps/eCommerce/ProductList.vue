@@ -1,16 +1,17 @@
 <script setup>
-import { computed, nextTick, ref, watch } from 'vue';
-import { EditIcon, PointFilledIcon, TrashIcon } from 'vue-tabler-icons';
+import { ref, computed, onMounted } from 'vue';
+import { fetchCustomers, addCustomer, updateCustomer, deleteCustomer } from '@/_mockApis/apps/supplymanagement/indexCustomer';
+import { EditIcon, TrashIcon } from 'vue-tabler-icons';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
 
-const search = ref();
+const search = ref('');
 const dialog = ref(false);
 const dialogDelete = ref(false);
 const headers = ref([
     { title: 'No', key: 'no', align: 'left' },
     { title: 'ID', key: 'id', align: 'left' },
     { title: 'Name', key: 'product', align: 'left' },
-    { title: 'NPWP', key: 'date', align: 'left' },
+    { title: 'NPW', key: 'date', align: 'left' },
     { title: 'Address', key: 'status', align: 'left' },
     { title: 'Contact', key: 'price', align: 'left' },
     { title: 'Rekening Perusahaan', key: 'rekening', align: 'left', sortable: false },
@@ -26,109 +27,91 @@ const editedItem = ref({
     price: '',
     rekening: ''
 });
-const defaultItem = ref({
+const defaultItem = {
     id: '',
     product: '',
     date: '',
     status: '',
     price: '',
     rekening: ''
-});
+};
+
 const formTitle = computed(() => {
     return editedIndex.value === -1 ? 'New Customer' : 'Edit Customer';
 });
-function initialize() {
-    productlist.value = [
-        {
-            id: 'VP0221',
-            product: 'PT Maju Bersama',
-            category: '12345',
-            date: '12345',
-            status: 'Jalan Teladan No 1',
-            price: '081262120723',
-            rekening: '6472198271'
-        },
-        {
-            id: 'VP0222',
-            product: 'PT Mundur Bersama',
-            category: '17312',
-            date: '17312',
-            status: 'Jalan Selayang No 10',
-            price: '081252731722',
-            rekening: '7361883728'
-        },
-        {
-            id: 'VP0223',
-            product: 'PT Keong',
-            category: '12345',
-            date: '83718',
-            status: 'Jalan Setiabudi No 2',
-            price: '081235130712',
-            rekening: '7318227649'
-        },
-        {
-            id: 'VP0224',
-            product: 'PT Setrika',
-            category: '12345',
-            date: '83725',
-            status: 'Jalan Cipayung No 8',
-            price: '081262110823',
-            rekening: '8371882712'
-        },
-        {
-            id: 'VP0225',
-            product: 'PT Batu Bara',
-            category: '83719',
-            date: '138935',
-            status: 'Jalan Pemda No 1',
-            price: '081239121923',
-            rekening: '7361889283'
-        }
-    ];
+
+async function initialize() {
+    try {
+        const response = await fetchCustomers();
+        productlist.value = response.map((item) => ({
+            id: item.id,
+            product: item.product,
+            date: item.date,
+            status: item.status,
+            price: item.price,
+            rekening: item.rekening,
+        }));
+    } catch (error) {
+        console.error('Failed to fetch customers:', error);
+    }
 }
+
 function editItem(item) {
     editedIndex.value = productlist.value.indexOf(item);
-    editedItem.value = Object.assign({}, item);
+    editedItem.value = { ...item };
     dialog.value = true;
 }
-function deleteItem(item) {
+
+async function deleteItem(item) {
     editedIndex.value = productlist.value.indexOf(item);
-    editedItem.value = Object.assign({}, item);
+    editedItem.value = { ...item };
     dialogDelete.value = true;
 }
-function deleteItemConfirm() {
-    productlist.value.splice(editedIndex.value, 1);
-    closeDelete();
+
+async function deleteItemConfirm() {
+    try {
+        await deleteCustomer(editedItem.value.id);
+        productlist.value.splice(editedIndex.value, 1); // Hapus data langsung dari list
+        closeDelete();
+    } catch (error) {
+        console.error('Failed to delete customer:', error);
+    }
 }
+
 function close() {
     dialog.value = false;
-    nextTick(() => {
-        editedItem.value = Object.assign({}, defaultItem.value);
-        editedIndex.value = -1;
-    });
+    Object.assign(editedItem.value, defaultItem);
+    editedIndex.value = -1;
 }
+
 function closeDelete() {
     dialogDelete.value = false;
-    nextTick(() => {
-        editedItem.value = Object.assign({}, defaultItem.value);
-        editedIndex.value = -1;
-    });
+    Object.assign(editedItem.value, defaultItem);
+    editedIndex.value = -1;
 }
-function save() {
-    if (editedIndex.value > -1) {
-        Object.assign(productlist.value[editedIndex.value], editedItem.value);
-    } else {
-        productlist.value.push(editedItem.value);
+
+async function save() {
+    try {
+        if (editedIndex.value > -1) {
+            // Update data pelanggan
+            await updateCustomer(editedItem.value);
+            Object.assign(productlist.value[editedIndex.value], editedItem.value);
+        } else {
+            // Tambah pelanggan baru
+            const newCustomer = { ...editedItem.value };
+            delete newCustomer.id; // Hapus ID karena akan dibuat otomatis oleh backend
+            await addCustomer(newCustomer);
+            await initialize(); // Refresh data setelah penambahan
+        }
+        close();
+    } catch (error) {
+        console.error('Failed to save customer:', error);
     }
-    close();
 }
-watch(dialog, (val) => {
-    val || close();
+
+onMounted(() => {
+    initialize();
 });
-watch(dialogDelete, (val) => {
-    val || closeDelete();
-});
-initialize();
 </script>
 
 <template>
@@ -156,7 +139,7 @@ initialize();
                     <template v-slot:item.product="{ item }">
                         <span class="text-subtitle-1 text-left">{{ item.product }}</span>
                     </template>
-                    <!-- Kolom NPW -->
+                    <!-- Kolom NPWP -->
                     <template v-slot:item.date="{ item }">
                         <span class="text-subtitle-1 text-left">{{ item.date }}</span>
                     </template>
@@ -212,25 +195,27 @@ initialize();
                                         <span class="text-h5">{{ formTitle }}</span>
                                     </v-card-title>
                                     <v-card-text>
-                                        <v-container class="px-0">
+                                        <v-container>
                                             <v-row>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.id" label="ID"></v-text-field>
+                                                <!-- Name -->
+                                                <v-col cols="12">
+                                                    <v-text-field v-model="editedItem.product" label="Name" outlined></v-text-field>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.product" label="Name"></v-text-field>
+                                                <!-- NPWP -->
+                                                <v-col cols="12">
+                                                    <v-text-field v-model="editedItem.date" label="NPWP" outlined></v-text-field>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.date" label="NPW"></v-text-field>
+                                                <!-- Address -->
+                                                <v-col cols="12">
+                                                    <v-text-field v-model="editedItem.status" label="Address" outlined></v-text-field>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.status" label="Address"></v-text-field>
+                                                <!-- Contact -->
+                                                <v-col cols="12">
+                                                    <v-text-field v-model="editedItem.price" label="Contact" outlined></v-text-field>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.price" label="Contact"></v-text-field>
-                                                </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.rekening" label="Rekening Perusahaan"></v-text-field>
+                                                <!-- Rekening Perusahaan -->
+                                                <v-col cols="12">
+                                                    <v-text-field v-model="editedItem.rekening" label="Rekening Perusahaan" outlined></v-text-field>
                                                 </v-col>
                                             </v-row>
                                         </v-container>

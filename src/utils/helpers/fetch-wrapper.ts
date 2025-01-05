@@ -4,14 +4,14 @@ export const fetchWrapper = {
     get: request('GET'),
     post: request('POST'),
     put: request('PUT'),
-    delete: request('DELETE')
+    delete: request('DELETE'),
 };
 
 function request(method: string) {
     return (url: any, body?: any) => {
         const requestOptions: any = {
             method,
-            headers: authHeader(url)
+            headers: authHeader(url),
         };
         if (body) {
             requestOptions.headers['Content-Type'] = 'application/json';
@@ -21,18 +21,14 @@ function request(method: string) {
     };
 }
 
-// helper functions
-
-function authHeader(url: any) {
-    // return auth header with jwt if user is logged in and request is to the api url
+function authHeader(url: string) {
     const { user } = useAuthStore();
-    const isLoggedIn = !!user?.token;
-    const isApiUrl = url.startsWith(import.meta.env.VITE_API_URL);
-    if (isLoggedIn && isApiUrl) {
-        return { Authorization: `Bearer ${user.token}` };
-    } else {
-        return {};
+    const token = user?.token; // Get Token-state
+
+    if (token) {
+        return { Authorization: `Bearer ${token}` }; // Token Authorization
     }
+    return {};
 }
 
 function handleResponse(response: any) {
@@ -42,7 +38,6 @@ function handleResponse(response: any) {
         if (!response.ok) {
             const { user, logout } = useAuthStore();
             if ([401, 403].includes(response.status) && user) {
-                // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
                 logout();
             }
 

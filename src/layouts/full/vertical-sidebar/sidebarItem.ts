@@ -331,28 +331,28 @@ const sidebarItem: menu[] = [
     //     icon: AppWindowIcon,
     //     to: '/'
     // },
-    // {
-    //     title: 'Widget',
-    //     icon: LayoutIcon,
-    //     to: '/widget-card',
-    //     children: [
-    //         {
-    //             title: 'Cards',
-    //             icon: PointIcon,
-    //             to: '/widgets/cards'
-    //         },
-    //         {
-    //             title: 'Banners',
-    //             icon: PointIcon,
-    //             to: '/widgets/banners'
-    //         },
-    //         {
-    //             title: 'Charts',
-    //             icon: PointIcon,
-    //             to: '/widgets/charts'
-    //         }
-    //     ]
-    // },
+    {
+        title: 'Item Management',
+        icon: LayoutIcon,
+        to: '/widget-card',
+        children: [
+            {
+                title: 'Item SO',
+                icon: PointIcon,
+                to: '/widgets/cards'
+            },
+            // {
+            //     title: 'Banners',
+            //     icon: PointIcon,
+            //     to: '/widgets/banners'
+            // },
+            {
+                title: 'Item PO',
+                icon: PointIcon,
+                to: '/widgets/charts'
+            }
+        ]
+    },
 
     // { header: 'Forms' },
     // {

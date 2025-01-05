@@ -7,17 +7,17 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+     '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
   server: {
     proxy: {
-      '/usermanagement': {
+      '/login': { 
         target: 'http://127.0.0.1:8000',
         changeOrigin: true,
         secure: false,
       },
-      '/login': { 
+      '/usermanagement': {
         target: 'http://127.0.0.1:8000',
         changeOrigin: true,
         secure: false,
@@ -32,6 +32,33 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      '/vendoritem': { 
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/listvendor': { 
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/customeritem': { 
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/moneymanagement': { 
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/locklimitrekening': { 
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        secure: false,
+      },
+
+
     },
   },
   build: {

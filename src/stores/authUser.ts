@@ -1,21 +1,23 @@
 import { defineStore } from 'pinia';
-
 import { fetchWrapper } from '@/utils/helpers/fetch-wrapper';
 
-const baseUrl = `${import.meta.env.VITE_API_URL}/users`;
+const baseUrl = 'http://127.0.0.1:8000/users';
 
 export const useUsersStore = defineStore({
     id: 'Authuser',
     state: () => ({
-        users: {}
+        users: null as null | { loading: boolean } | { error: string } | Array<any>,
     }),
     actions: {
         async getAll() {
             this.users = { loading: true };
-            fetchWrapper
-                .get(baseUrl)
-                .then((users) => (this.users = users))
-                .catch((error) => (this.users = { error }));
-        }
-    }
+            try {
+                const users = await fetchWrapper.get(baseUrl);
+                this.users = users;
+            } catch (error: unknown) {
+                const errorMessage = (error as Error).message || 'Failed to fetch users';
+                this.users = { error: errorMessage };
+            }
+        },
+    },
 });
