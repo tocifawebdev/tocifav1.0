@@ -2,7 +2,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { EditIcon, TrashIcon } from 'vue-tabler-icons';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
-import { fetchVendors, addVendor, updateVendor, deleteVendor } from '@/_mockApis/apps/ecommerce/indexVendor';
+import { fetchVendors, addVendor, updateVendor, deleteVendor } from '@/_mockApis/apps/supplymanagement/indexVendor';
 
 const search = ref('');
 const dialog = ref(false);
@@ -40,10 +40,10 @@ async function initialize() {
         const data = await fetchVendors();
         productlist.value = data.map((item) => ({
             id: item.id,
-            product: item.name,
-            status: item.address,
-            price: item.phone,
-            rekening: item.bank_account,
+            product: item.product,
+            status: item.status,
+            price: item.price,
+            rekening: item.rekening,
         }));
     } catch (error) {
         console.error('Failed to fetch vendors:', error);
@@ -183,24 +183,51 @@ onMounted(initialize);
                                     <v-card-text>
                                         <v-container class="px-0">
                                             <v-row>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.id" label="ID"></v-text-field>
+                                                <!-- ID -->
+                                                <!-- <v-col cols="12">
+                                                    <v-text-field
+                                                        v-model="editedItem.id"
+                                                        label="ID"
+                                                        outlined
+                                                        disabled
+                                                    ></v-text-field>
+                                                </v-col> -->
+                                                <!-- Name -->
+                                                <v-col cols="12">
+                                                    <v-text-field
+                                                        v-model="editedItem.product"
+                                                        label="Name"
+                                                        outlined
+                                                    ></v-text-field>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.product" label="Name"></v-text-field>
+                                                <!-- Address -->
+                                                <v-col cols="12">
+                                                    <v-text-field
+                                                        v-model="editedItem.status"
+                                                        label="Address"
+                                                        outlined
+                                                    ></v-text-field>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.status" label="Address"></v-text-field>
+                                                <!-- Contact -->
+                                                <v-col cols="12">
+                                                    <v-text-field
+                                                        v-model="editedItem.price"
+                                                        label="Contact"
+                                                        outlined
+                                                    ></v-text-field>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.price" label="Contact"></v-text-field>
-                                                </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.rekening" label="Rekening Perusahaan"></v-text-field>
+                                                <!-- Rekening Perusahaan -->
+                                                <v-col cols="12">
+                                                    <v-text-field
+                                                        v-model="editedItem.rekening"
+                                                        label="Rekening Perusahaan"
+                                                        outlined
+                                                    ></v-text-field>
                                                 </v-col>
                                             </v-row>
                                         </v-container>
                                     </v-card-text>
+
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn color="error" variant="flat" dark @click="close">Cancel</v-btn>

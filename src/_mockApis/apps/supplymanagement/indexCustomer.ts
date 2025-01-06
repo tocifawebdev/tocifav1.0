@@ -8,7 +8,7 @@ const customers: KeyedObject[] = [];
 
 const fetchCustomers = async () => {
     try {
-        const response = await axios.get('http://127.0.0.1:8000/customerdata/');
+        const response = await axios.get('http://127.0.0.1:8080/customerdata/');
         const fetchedCustomers = response.data.map((item: any) => ({
             id: item.id || '',
             product: item.name || '',
@@ -27,13 +27,13 @@ const fetchCustomers = async () => {
 
 const addCustomer = async (newCustomer: KeyedObject) => {
     try {
-        await axios.post('http://127.0.0.1:8000/customerdata/', {
+        await axios.post('http://127.0.0.1:8080/customerdata/', {
             name: newCustomer.product,
             npwp: newCustomer.date,
             address: newCustomer.status,
             phone: newCustomer.price,
             bank_account: newCustomer.rekening,
-            add_user: 'admin', // Field sesuai backend
+            add_user: 'admin', 
         });
     } catch (error) {
         console.error('Error adding customer:', error);
@@ -42,14 +42,14 @@ const addCustomer = async (newCustomer: KeyedObject) => {
 
 const updateCustomer = async (updatedCustomer: KeyedObject) => {
     try {
-        await axios.put('http://127.0.0.1:8000/customerdata/', {
+        await axios.put('http://127.0.0.1:8080/customerdata/', {
             id: updatedCustomer.id,
             name: updatedCustomer.product,
             npwp: updatedCustomer.date,
             address: updatedCustomer.status,
             phone: updatedCustomer.price,
             bank_account: updatedCustomer.rekening,
-            upd_user: 'admin', // Field sesuai backend
+            upd_user: 'admin', 
         });
     } catch (error) {
         console.error('Error updating customer:', error);
@@ -58,10 +58,10 @@ const updateCustomer = async (updatedCustomer: KeyedObject) => {
 
 const deleteCustomer = async (customerId: string) => {
     try {
-        await axios.delete('http://127.0.0.1:8000/customerdata/', {
+        await axios.delete('http://127.0.0.1:8080/customerdata/', {
             data: {
                 customer_id: customerId,
-                upd_user: 'admin', // Field sesuai backend
+                upd_user: 'admin', 
             },
         });
     } catch (error) {

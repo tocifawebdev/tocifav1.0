@@ -9,10 +9,10 @@ export const fetchVendors = async (): Promise<KeyedObject[]> => {
         const response = await axios.get('http://127.0.0.1:8080/vendordata/');
         return response.data.map((item: any) => ({
             id: item.id || '',
-            name: item.name || '',
-            address: item.address || '',
-            phone: item.phone || '',
-            bank_account: item.bank_account || '',
+            product: item.name || '',
+            status: item.address || '',
+            price: item.phone || '',
+            rekening: item.bank_account || '',
             add_time: item.add_time || '',
             upd_time: item.upd_time || ''
         }));
@@ -25,10 +25,11 @@ export const fetchVendors = async (): Promise<KeyedObject[]> => {
 export const addVendor = async (newVendor: KeyedObject) => {
     try {
         await axios.post('http://127.0.0.1:8080/vendordata/', {
-            name: newVendor.name,
-            address: newVendor.address,
-            phone: newVendor.phone,
-            bank_account: newVendor.bank_account,
+            name: newVendor.product,
+            address: newVendor.status,
+            phone: newVendor.price,
+            bank_account: newVendor.rekening,
+            add_user: 'admin', 
         });
     } catch (error) {
         console.error('Error adding vendor:', error);
@@ -39,10 +40,11 @@ export const updateVendor = async (updatedVendor: KeyedObject) => {
     try {
         await axios.put('http://127.0.0.1:8080/vendordata/', {
             id: updatedVendor.id,
-            name: updatedVendor.name,
-            address: updatedVendor.address,
-            phone: updatedVendor.phone,
-            bank_account: updatedVendor.bank_account,
+            name: updatedVendor.product,
+            address: updatedVendor.status,
+            phone: updatedVendor.price,
+            bank_account: updatedVendor.rekening,
+            upd_user: 'admin',
         });
     } catch (error) {
         console.error('Error updating vendor:', error);

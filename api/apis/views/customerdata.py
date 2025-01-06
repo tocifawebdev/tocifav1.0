@@ -17,7 +17,7 @@ class CustomerDataAPI(APIView):
 
     def get(self, request):
         # Mengambil data pelanggan
-        results = self.execute_sp('READ', ['Pelanggan', '', '', '', '', '', '', '', '', '', '', '', '', '', ''])
+        results = self.execute_sp('READ', ['Customer', '', '', '', '', '', '', '', '', '', '', '', ''])
         if isinstance(results, str):
             return JsonResponse({"error": results}, status=500)
 
@@ -28,13 +28,12 @@ class CustomerDataAPI(APIView):
                 "name": row[1],
                 "npwp": row[2],
                 "address": row[3],
-                "email": row[4],
-                "phone": row[5],
-                "bank_account": row[6],
-                "add_time": row[7].strftime("%Y-%m-%d %H:%M:%S") if row[7] else None,
-                "add_user": row[8],
-                "upd_time": row[9].strftime("%Y-%m-%d %H:%M:%S") if row[9] else None,
-                "upd_user": row[10],
+                "phone": row[4],
+                "bank_account": row[5],
+                "add_time": row[6].strftime("%Y-%m-%d %H:%M:%S") if row[6] else None,
+                "add_user": row[7],
+                "upd_time": row[8].strftime("%Y-%m-%d %H:%M:%S") if row[8] else None,
+                "upd_user": row[9],
             }
             for row in results
         ]
@@ -44,15 +43,14 @@ class CustomerDataAPI(APIView):
         # Menambahkan data pelanggan baru
         data = JSONParser().parse(request)
         params = [
-            'Pelanggan', '',  # param_vporvs, update_vporvsID
+            'Customer',  # param_vporvs
             data.get("name", ""),
             data.get("npwp", ""),
             data.get("address", ""),
-            data.get("email", ""),
             data.get("phone", ""),
             data.get("bank_account", ""),
-            '', '', '', '', '', '',  # Update fields kosong
-            'yosephatigoran'  # param_adduser
+            '', '', '', '', '',  # Update fields kosong
+            '', 'yosephatigoran'  # param_vporvsID, param_adduser
         ]
         error = self.execute_sp('INSERT', params)
         if isinstance(error, str):
@@ -63,15 +61,14 @@ class CustomerDataAPI(APIView):
         # Mengupdate data pelanggan
         data = JSONParser().parse(request)
         params = [
-            'Pelanggan',  # param_vporvs
-            data.get("customer_id", ""),  # update_vporvsID
-            '',  '', '', '', '', '',  # param fields kosong
+            'Customer',  # param_vporvs
+            '', '', '', '', '',  # param fields kosong
             data.get("name", ""),  # update_name
             data.get("npwp", ""),  # update_npwp
             data.get("address", ""),  # update_address
-            data.get("email", ""),  # update_email
             data.get("phone", ""),  # update_phone
             data.get("bank_account", ""),  # update_bank
+            data.get("customer_id", ""),
             'yosephatigoran'  # param_adduser
         ]
         error = self.execute_sp('UPDATE', params)
@@ -83,9 +80,9 @@ class CustomerDataAPI(APIView):
         # Menghapus data pelanggan
         data = JSONParser().parse(request)
         params = [
-            'Pelanggan',  # param_vporvs
-            data.get("customer_id", ""),  # update_vporvsID
-            '', '', '', '', '', '', '', '', '', '', '', '',  # Semua param kosong
+            'Customer',  # param_vporvs
+            '', '', '', '', '', '', '', '', '', '',  # Semua param kosong
+            data.get("customer_id", ""),
             'yosephatigoran'  # param_adduser
         ]
         error = self.execute_sp('DELETE', params)

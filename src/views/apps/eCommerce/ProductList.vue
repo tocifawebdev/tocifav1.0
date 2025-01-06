@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { fetchCustomers, addCustomer, updateCustomer, deleteCustomer } from '@/_mockApis/apps/ecommerce/indexCustomer';
+import { fetchCustomers, addCustomer, updateCustomer, deleteCustomer } from '@/_mockApis/apps/supplymanagement/indexCustomer';
 import { EditIcon, TrashIcon } from 'vue-tabler-icons';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
 
@@ -139,7 +139,7 @@ onMounted(() => {
                     <template v-slot:item.product="{ item }">
                         <span class="text-subtitle-1 text-left">{{ item.product }}</span>
                     </template>
-                    <!-- Kolom NPW -->
+                    <!-- Kolom NPWP -->
                     <template v-slot:item.date="{ item }">
                         <span class="text-subtitle-1 text-left">{{ item.date }}</span>
                     </template>
@@ -197,20 +197,25 @@ onMounted(() => {
                                     <v-card-text>
                                         <v-container>
                                             <v-row>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.product" label="Name"></v-text-field>
+                                                <!-- Name -->
+                                                <v-col cols="12">
+                                                    <v-text-field v-model="editedItem.product" label="Name" outlined></v-text-field>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.date" label="NPWP"></v-text-field>
+                                                <!-- NPWP -->
+                                                <v-col cols="12">
+                                                    <v-text-field v-model="editedItem.date" label="NPWP" outlined></v-text-field>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.status" label="Address"></v-text-field>
+                                                <!-- Address -->
+                                                <v-col cols="12">
+                                                    <v-text-field v-model="editedItem.status" label="Address" outlined></v-text-field>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.price" label="Contact"></v-text-field>
+                                                <!-- Contact -->
+                                                <v-col cols="12">
+                                                    <v-text-field v-model="editedItem.price" label="Contact" outlined></v-text-field>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="editedItem.rekening" label="Rekening Perusahaan"></v-text-field>
+                                                <!-- Rekening Perusahaan -->
+                                                <v-col cols="12">
+                                                    <v-text-field v-model="editedItem.rekening" label="Rekening Perusahaan" outlined></v-text-field>
                                                 </v-col>
                                             </v-row>
                                         </v-container>
