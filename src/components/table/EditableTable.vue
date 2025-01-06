@@ -83,11 +83,13 @@ function close() {
 async function save() {
     try {
         if (editedIndex.value > -1) {
-            await updateContact(editedItem.value);
+            const tableUsername = desserts.value[editedIndex.value].userinfo; // Username dari tabel sebelum diubah
+            const formUsername = editedItem.value.userinfo;                  // Username yang di-input di form edit
+            await updateContact(tableUsername, formUsername, editedItem.value);
         } else {
             await addContact(editedItem.value);
         }
-        desserts.value = await fetchContacts();
+        desserts.value = await fetchContacts(); // Refresh data setelah save
         close();
     } catch (error) {
         console.error('Failed to save user:', error);

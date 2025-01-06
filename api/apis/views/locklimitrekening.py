@@ -15,7 +15,7 @@ class LockLimitRekeningAPI(APIView):
         data = request.data
         lock_rek = data.get("lock_rek")  # "1" untuk lock, "0" untuk unlock
         rek_id = data.get("rek_id", "TCF0771")  # RekID bisa di-hardcode atau diambil dari request
-        add_user = data.get("add_user", "tocifausermanagement")  # Username default untuk testing
+        add_user = data.get("add_user", "01700551")  # Username default untuk testing
 
         # Validasi input
         if lock_rek not in ["0", "1"]:

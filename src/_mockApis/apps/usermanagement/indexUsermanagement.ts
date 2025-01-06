@@ -40,15 +40,16 @@ const addContact = async (newContact: KeyedObject) => {
     }
 };
 
-const updateContact = async (updatedContact: KeyedObject) => {
+const updateContact = async (tableUsername: string, formUsername: string, updatedContact: KeyedObject) => {
     try {
         await axios.put('http://127.0.0.1:8000/usermanagement/', {
-            username: updatedContact.userinfo,
+            table_username: tableUsername,  // Username dari tabel sebelum diubah
+            form_username: formUsername,   // Username yang di-input di form edit
             user_level: updatedContact.role,
             email: updatedContact.usermail,
             password: updatedContact.password,
-            add_user: 'admin'
-        });        
+            add_user: 'admin'  // Anda dapat mengganti 'admin' dengan username dari user yang sedang login
+        });
     } catch (error) {
         console.error('Error updating contact:', error);
     }

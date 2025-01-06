@@ -18,7 +18,7 @@ class CustomerItemAPI(APIView):
             data.get("unit"),             # Unit
             "", "",                       # Fields not used for INSERT
             "",                           # Item ID (empty for INSERT)
-            data.get("adduser")           # User who adds the item
+            '01700551'                    # User who adds the item
         ]
         result = self.execute_procedure("sp_customeritem", params)
         return JsonResponse(result, safe=False)
@@ -35,7 +35,7 @@ class CustomerItemAPI(APIView):
             data.get("update_itemname"),  # Updated Item Name
             data.get("update_unit"),      # Updated Unit
             data.get("itemid"),           # Item ID to update
-            data.get("adduser")           # User who updates the item
+            '01700551'                    # User who updates the item
         ]
         result = self.execute_procedure("sp_customeritem", params)
         return JsonResponse(result, safe=False)
@@ -50,7 +50,7 @@ class CustomerItemAPI(APIView):
             param_feature,                # Operation type
             "", "", "", "",               # Fields not used for DELETE
             data.get("itemid"),           # Item ID to delete
-            data.get("adduser")           # User who deletes the item
+            '01700551'                    # User who deletes the item
         ]
         result = self.execute_procedure("sp_customeritem", params)
         return JsonResponse(result, safe=False)

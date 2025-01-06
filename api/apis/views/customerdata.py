@@ -50,7 +50,7 @@ class CustomerDataAPI(APIView):
             data.get("phone", ""),
             data.get("bank_account", ""),
             '', '', '', '', '',
-            '', 'yosephatigoran'
+            '', '01700551'
         ]
         error = self.execute_sp('INSERT', params)
         if isinstance(error, str):
@@ -69,7 +69,7 @@ class CustomerDataAPI(APIView):
             data.get("phone", ""),
             data.get("bank_account", ""),
             data.get("customer_id", ""),
-            'yosephatigoran'
+            '01700551'
         ]
         error = self.execute_sp('UPDATE', params)
         if isinstance(error, str):
@@ -83,7 +83,7 @@ class CustomerDataAPI(APIView):
             'Customer',
             '', '', '', '', '', '', '', '', '', '',
             data.get("customer_id", ""),
-            'yosephatigoran'
+            '01700551'
         ]
         error = self.execute_sp('DELETE', params)
         if isinstance(error, str):

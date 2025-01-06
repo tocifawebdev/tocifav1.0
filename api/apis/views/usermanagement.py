@@ -42,7 +42,7 @@ class UserManagementAPI(APIView):
             data.get("password", ""),
             data.get("email", ""),
             '', '', '', '',
-            'yosephatigoran'
+            '01700551'
         ]
         error = self.execute_sp('INSERT', params)
         if isinstance(error, str):
@@ -52,10 +52,10 @@ class UserManagementAPI(APIView):
     def put(self, request):
         data = JSONParser().parse(request)
         params = [
-            '', 'budiman', '',
+            '', data.get("table_username", ""), '',
             '', data.get("user_level", ""),
-            data.get("username", ""), data.get("password", ""),
-            data.get("email", ""), 'yosephatigoran'
+            data.get("form_username", ""), data.get("password", ""),
+            data.get("email", ""), '01700551'
         ]
         error = self.execute_sp('UPDATE', params)
         if isinstance(error, str):
@@ -67,7 +67,7 @@ class UserManagementAPI(APIView):
         params = [
             '', data.get("username", ""), '', '',
             '', '', '', '',
-            'yosephatigoran'
+            '01700551'
         ]
         error = self.execute_sp('DELETE', params)
         if isinstance(error, str):

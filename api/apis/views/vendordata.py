@@ -48,7 +48,7 @@ class VendorDataAPI(APIView):
             data.get("phone", ""),
             data.get("bank_account", ""),
             '', '', '', '', '',
-            '', 'yosephatigoran'
+            '', '01700551'
         ]
         error = self.execute_sp('INSERT', params)
         if isinstance(error, str):
@@ -67,7 +67,7 @@ class VendorDataAPI(APIView):
             data.get("phone", ""),
             data.get("bank_account", ""),
             data.get("vendor_id", ""),
-            'yosephatigoran'
+            '01700551'
         ]
         error = self.execute_sp('UPDATE', params)
         if isinstance(error, str):
@@ -81,7 +81,7 @@ class VendorDataAPI(APIView):
             'Vendor',
             '', '', '', '', '', '', '', '', '', '',
             data.get("vendor_id", ""),
-            'yosephatigoran'
+            '01700551'
         ]
         error = self.execute_sp('DELETE', params)
         if isinstance(error, str):

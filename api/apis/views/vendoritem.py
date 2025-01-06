@@ -19,7 +19,7 @@ class VendorItemAPI(APIView):
             data.get("price"),
             data.get("unit"),
             "", "", "", "",
-            "", 'tocifausermanagement'
+            "", '01700551'
         ]
         result = self.execute_procedure("sp_vendoritem", params)
         return JsonResponse(result, safe=False)
@@ -38,7 +38,7 @@ class VendorItemAPI(APIView):
             data.get("update_price"),
             data.get("update_unit"),
             data.get("itemid"),
-            'tocifausermanagement'
+            '01700551'
         ]
         result = self.execute_procedure("sp_vendoritem", params)
         return JsonResponse(result, safe=False)
@@ -54,7 +54,7 @@ class VendorItemAPI(APIView):
             "", "", "", "",
             "", "", "", "",
             data.get("itemid"),
-            'tocifausermanagement'
+            '01700551'
         ]
         result = self.execute_procedure("sp_vendoritem", params)
         return JsonResponse(result, safe=False)
