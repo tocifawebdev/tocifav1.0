@@ -3,7 +3,7 @@ import { ref } from 'vue';
 // common components
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
-import { heightTableData, tableActionData} from '@/_mockApis/components/table/basicTables';
+import { heightTableData, tableActionData} from '@/_mockApis/components/moneymanagement/basicTables';
 // theme breadcrumb
 const page = ref({ title: 'Height Table' });
 const breadcrumbs = ref([

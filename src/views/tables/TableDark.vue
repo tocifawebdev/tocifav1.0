@@ -3,7 +3,7 @@ import { ref } from 'vue';
 // common components
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
-import { darkTableData } from '@/_mockApis/components/table/basicTables';
+import { darkTableData } from '@/_mockApis/components/moneymanagement/basicTables';
 // theme breadcrumb
 const page = ref({ title: 'Dark Table' });
 const breadcrumbs = ref([

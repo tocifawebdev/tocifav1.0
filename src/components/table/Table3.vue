@@ -1,7 +1,7 @@
 
 
 <script setup lang="ts">
-import {basicTableData3,tableActionData} from '@/_mockApis/components/table/basicTables';
+import {basicTableData3,tableActionData} from '@/_mockApis/components/moneymanagement/basicTables';
 </script>
 <template>
     <v-card elevation="0" class="mt-6 border">

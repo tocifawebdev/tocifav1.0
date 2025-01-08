@@ -353,6 +353,16 @@ const sidebarItem: menu[] = [
             }
         ]
     },
+    // {
+    //     title: 'Money Management',
+    //     icon: BorderHorizontalIcon,
+    //     to: '/tables/dark'
+    // },
+    {
+        title: 'Money Management',
+        icon: ServerIcon,
+        to: '/tables/datatables/slots'
+    }
 
     // { header: 'Forms' },
     // {
@@ -526,11 +536,7 @@ const sidebarItem: menu[] = [
     //     icon: BoxModelIcon,
     //     to: '/tables/datatables/grouping'
     // },
-    // {
-    //     title: 'Table Slots',
-    //     icon: ServerIcon,
-    //     to: '/tables/datatables/slots'
-    // },
+    
     // {
     //     title: 'CRUD Table',
     //     icon: JumpRopeIcon,

@@ -3,7 +3,7 @@ import { ref } from 'vue';
 // common components
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
-import { tableDensityData } from '@/_mockApis/components/table/basicTables';
+import { tableDensityData } from '@/_mockApis/components/moneymanagement/basicTables';
 // theme breadcrumb
 const page = ref({ title: 'Density Table' });
 const breadcrumbs = ref([

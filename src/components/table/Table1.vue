@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {basicTableData1} from '@/_mockApis/components/table/basicTables';
+import {basicTableData1} from '@/_mockApis/components/moneymanagement/basicTables';
 </script>
 <template>
     <v-card class="border" elevation="0">
