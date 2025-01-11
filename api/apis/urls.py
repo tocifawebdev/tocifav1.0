@@ -10,6 +10,15 @@ from .views.listvendor import ListVendorAPI
 from .views.customeritem import CustomerItemAPI
 from .views.moneymanagement import MoneyManagementAPI
 from .views.locklimitrekening import LockLimitRekeningAPI
+from .views.requestpo import RequestPOAPI
+from .views.updaterequestpo import UpdateRequestPOAPI
+from .views.vendoritempriceunit import VendorItemPriceUnitAPI
+from .views.totalpriceperitem import TotalPricePerItemAPI
+from .views.totalallpriceitem import TotalPriceAllItemAPI
+from .views.datetime import DateTimeAPI
+from .views.selectvendoritem import VendorItemDropdownAPI
+from .views.selectvendor import VendorDropdownAPI
+from .views.vendorinfo import VendorInfoAPI
 from django.http import HttpResponse
 
 
@@ -52,8 +61,35 @@ urlpatterns = [
     # Money Management Endpoints API
     path('moneymanagement/', MoneyManagementAPI.as_view(), name='money_management'),
 
-     # Lock Limit Rekening Endpoints API
+    # Lock Limit Rekening Endpoints API
     path('locklimitrekening/', LockLimitRekeningAPI.as_view(), name='lock_limit_rekening'),
+
+    # RequestPO Endpoints API
+    path('requestpo/', RequestPOAPI.as_view(), name='requst_po'),
+
+    # Update RequestPO Endpoints API
+    path('updaterequestpo/', UpdateRequestPOAPI.as_view(), name='update_requst_po'),
+
+    # Vendor Item Price Unit Endpoints API
+    path('vendoritempriceunit/', VendorItemPriceUnitAPI.as_view(), name='vendor_item_price_unit'),
+
+    # Total Price Per Item Endpoints API
+    path('totalpriceperitem/', TotalPricePerItemAPI.as_view(), name='total_price_per_item'),
+
+    # Total Price All Item Endpoints API
+    path('totalallpriceitem/', TotalPriceAllItemAPI.as_view(), name='total_all_price_item'),
+
+    # Date Time Endpoints API
+    path('datetime/', DateTimeAPI.as_view(), name='date_time'),
+
+    # Select Vendor Item Endpoints API
+    path('selectvendoritem/', VendorItemDropdownAPI.as_view(), name='select_vendor_item'),
+
+    # Select Vendor Item Endpoints API
+    path('selectvendor/', VendorDropdownAPI.as_view(), name='select_vendor'),
+
+    # Vendor Info Endpoints API
+    path('vendorinfo/', VendorInfoAPI.as_view(), name='vendor_info'),
 
     # Token Authentication
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
