@@ -10,6 +10,7 @@
         "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^6.7.2",
         "@fullcalendar/core": "6.1.10",
         "@fullcalendar/daygrid": "6.1.10",
         "@fullcalendar/interaction": "6.1.10",
@@ -24,6 +25,7 @@
         "apexcharts": "3.45.2",
         "axios": "^1.7.9",
         "axios-mock-adapter": "1.22.0",
+        "bootstrap-icons": "^1.11.3",
         "chance": "^1.1.8",
         "date-fns": "^2.29.3",
         "lodash": "^4.17.21",

@@ -14,7 +14,7 @@ export const fetchVendorItems = async (): Promise<KeyedObject[]> => {
         return response.data.map((item: any) => ({
             id: item.VendorItemID || '', // ID unik item
             product: item.ItemName || '', // Nama item
-            status: item.VendorName || '', // Nama vendor
+            status: item.Vendor || '', // Nama vendor
             price: item.Price || '', // Harga
             rekening: item.Unit || '', // Satuan
             add_time: item.AddTime || '', // Waktu penambahan

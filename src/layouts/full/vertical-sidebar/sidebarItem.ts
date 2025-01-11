@@ -290,11 +290,7 @@ const sidebarItem: menu[] = [
     // },
 
     // { header: 'Pages' },
-    // {
-    //     title: 'Pricing',
-    //     icon: CurrencyDollarIcon,
-    //     to: '/pages/pricing'
-    // },
+    
     // {
     //     title: 'Account Setting',
     //     icon: UserCircleIcon,
@@ -362,6 +358,16 @@ const sidebarItem: menu[] = [
         title: 'Money Management',
         icon: ServerIcon,
         to: '/tables/datatables/slots'
+    },
+    {
+        title: 'Form Request PO',
+        icon: FileTextIcon,
+        to: '/forms/form-layouts'
+    },
+    {
+        title: 'History Request PO',
+        icon: CurrencyDollarIcon,
+        to: '/pages/pricing'
     }
 
     // { header: 'Forms' },
@@ -370,78 +376,74 @@ const sidebarItem: menu[] = [
     //     icon: AppsIcon,
     //     to: '/components/',
     //     children: [
-    //         {
-    //             title: 'Autocomplete',
-    //             icon: PointIcon,
-    //             to: '/forms/form-elements/autocomplete'
-    //         },
-    //         {
-    //             title: 'Combobox',
-    //             icon: PointIcon,
-    //             to: '/forms/form-elements/combobox'
-    //         },
-    //         {
-    //             title: 'Button',
-    //             icon: PointIcon,
-    //             to: '/forms/form-elements/button'
-    //         },
-    //         {
-    //             title: 'Checkbox',
-    //             icon: PointIcon,
-    //             to: '/forms/form-elements/checkbox'
-    //         },
-    //         {
-    //             title: 'Custom Inputs',
-    //             icon: PointIcon,
-    //             to: '/forms/form-elements/custominputs'
-    //         },
-    //         {
-    //             title: 'File Inputs',
-    //             icon: PointIcon,
-    //             to: '/forms/form-elements/fileinputs'
-    //         },
-    //         {
-    //             title: 'Radio',
-    //             icon: PointIcon,
-    //             to: '/forms/form-elements/radio'
-    //         },
-    //         {
-    //             title: 'Date Time',
-    //             icon: PointIcon,
-    //             to: '/forms/form-elements/date-time'
-    //         },
-    //         {
-    //             title: 'Select',
-    //             icon: PointIcon,
-    //             to: '/forms/form-elements/select'
-    //         },
-    //         {
-    //             title: 'Slider',
-    //             icon: PointIcon,
-    //             to: '/forms/form-elements/slider'
-    //         },
-    //         {
-    //             title: 'Switch',
-    //             icon: PointIcon,
-    //             to: '/forms/form-elements/switch'
-    //         },
-    //         {
-    //             title: 'Time Picker',
-    //             icon: PointIcon,
-    //             to: '/forms/form-elements/time-picker'
-    //         },
-    //         {
-    //             title: 'Stepper',
-    //             icon: PointIcon,
-    //             to: '/forms/form-elements/stepper'
-    //         }
+            // {
+            //     title: 'Autocomplete',
+            //     icon: PointIcon,
+            //     to: '/forms/form-elements/autocomplete'
+            // },
+            // {
+            //     title: 'Combobox',
+            //     icon: PointIcon,
+            //     to: '/forms/form-elements/combobox'
+            // },
+            // {
+            //     title: 'Button',
+            //     icon: PointIcon,
+            //     to: '/forms/form-elements/button'
+            // },
+            // {
+            //     title: 'Checkbox',
+            //     icon: PointIcon,
+            //     to: '/forms/form-elements/checkbox'
+            // },
+            // {
+            //     title: 'Custom Inputs',
+            //     icon: PointIcon,
+            //     to: '/forms/form-elements/custominputs'
+            // },
+            // {
+            //     title: 'File Inputs',
+            //     icon: PointIcon,
+            //     to: '/forms/form-elements/fileinputs'
+            // }
+            // {
+            //     title: 'Radio',
+            //     icon: PointIcon,
+            //     to: '/forms/form-elements/radio'
+            // },
+            // {
+            //     title: 'Date Time',
+            //     icon: PointIcon,
+            //     to: '/forms/form-elements/date-time'
+            // },
+            // {
+            //     title: 'Select',
+            //     icon: PointIcon,
+            //     to: '/forms/form-elements/select'
+            // },
+            // {
+            //     title: 'Slider',
+            //     icon: PointIcon,
+            //     to: '/forms/form-elements/slider'
+            // },
+            // {
+            //     title: 'Switch',
+            //     icon: PointIcon,
+            //     to: '/forms/form-elements/switch'
+            // },
+            // {
+            //     title: 'Time Picker',
+            //     icon: PointIcon,
+            //     to: '/forms/form-elements/time-picker'
+            // },
+            // {
+            //     title: 'Stepper',
+            //     icon: PointIcon,
+            //     to: '/forms/form-elements/stepper'
+            // }
     //     ]
     // },
-    // {
-    //     title: 'Form Layout',
-    //     icon: FileTextIcon,
-    //     to: '/forms/form-layouts'
-    // },
+    
     // {
     //     title: 'Form Horizontal',
     //     icon: BoxAlignBottomIcon,

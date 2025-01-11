@@ -8,7 +8,8 @@ import PerfectScrollbar from 'vue3-perfect-scrollbar';
 import VueApexCharts from 'vue3-apexcharts';
 import VueTablerIcons from 'vue-tabler-icons';
 import 'vue3-carousel/dist/carousel.css';
-
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import '@fortawesome/fontawesome-free/css/all.css';
 import Maska from 'maska';
 
 // i18n setup
