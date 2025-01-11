@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 class VendorItemDropdownAPI(APIView):
     """
-    API for retrieving vendor item data using stored procedure `sp_dropdown_vendoritem_by_vendor`.
+    API for retrieving vendor item data using the stored procedure `sp_dropdown_vendoritem_by_vendor`.
     """
 
     def execute_sp(self, param_vendordata):
@@ -23,11 +23,11 @@ class VendorItemDropdownAPI(APIView):
                 result = cursor.fetchall()
                 if result:
                     # Format result into a list of vendor item data
-                    return {"VendorItems": [row[0] for row in result]}
-                return {"error": "No vendor items found for the given vendor"}
+                    return {"VendorItems": [{"VendorItemData": row[0]} for row in result]}
+                return {"error": "No vendor items found for the given vendor."}
         except Exception as e:
-            logger.error(f"Error executing stored procedure: {str(e)}")
-            return {"error": str(e)}
+            logger.error(f"Error executing stored procedure: {e}")
+            return {"error": "An internal error occurred while retrieving vendor items."}
 
     def get(self, request):
         """
@@ -36,8 +36,8 @@ class VendorItemDropdownAPI(APIView):
         # Retrieve 'vendordata' parameter from the query string
         vendordata = request.GET.get("vendordata")
         if not vendordata:
-            logger.error("Missing required parameter 'vendordata'")
-            return JsonResponse({"error": "Missing required parameter 'vendordata'"}, status=400)
+            logger.error("Missing required parameter 'vendordata'.")
+            return JsonResponse({"error": "Missing required parameter 'vendordata'."}, status=400)
 
         # Log the received parameter
         logger.info(f"Received parameter: vendordata = {vendordata}")
@@ -45,9 +45,11 @@ class VendorItemDropdownAPI(APIView):
         # Execute the stored procedure
         result = self.execute_sp(vendordata)
 
-        # Return the result
+        # Check for errors in the result
         if "error" in result:
             logger.error(f"Error response: {result['error']}")
             return JsonResponse(result, status=404)
+
+        # Log success and return the result
         logger.info(f"Successfully retrieved vendor items for vendor: {vendordata}")
         return JsonResponse(result, status=200)
