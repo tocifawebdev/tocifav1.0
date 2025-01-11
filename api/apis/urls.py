@@ -85,7 +85,7 @@ urlpatterns = [
     # Select Vendor Item Endpoints API
     path('selectvendoritem/', VendorItemDropdownAPI.as_view(), name='select_vendor_item'),
 
-    # Select Vendor Item Endpoints API
+    # Select Vendor Endpoints API
     path('selectvendor/', VendorDropdownAPI.as_view(), name='select_vendor'),
 
     # Vendor Info Endpoints API
