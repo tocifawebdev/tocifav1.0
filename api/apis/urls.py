@@ -18,7 +18,7 @@ from .views.totalallpriceitem import TotalPriceAllItemAPI
 from .views.datetime import DateTimeAPI
 from .views.selectvendoritem import VendorItemDropdownAPI
 from .views.selectvendor import VendorDropdownAPI
-from .views.vendorinfo import VendorInfoAPI
+# from .views.vendorinfo import VendorInfoAPI
 from django.http import HttpResponse
 
 
@@ -88,8 +88,8 @@ urlpatterns = [
     # Select Vendor Endpoints API
     path('selectvendor/', VendorDropdownAPI.as_view(), name='select_vendor'),
 
-    # Vendor Info Endpoints API
-    path('vendorinfo/', VendorInfoAPI.as_view(), name='vendor_info'),
+    # # Vendor Info Endpoints API
+    # path('vendorinfo/', VendorInfoAPI.as_view(), name='vendor_info'),
 
     # Token Authentication
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
