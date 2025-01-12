@@ -359,16 +359,55 @@ const sidebarItem: menu[] = [
         icon: ServerIcon,
         to: '/tables/datatables/slots'
     },
+    // {
+    //     title: 'Item Management',
+    //     icon: LayoutIcon,
+    //     to: '/widget-card',
+    //     children: [
+    //         {
+    //             title: 'Item SO',
+    //             icon: PointIcon,
+    //             to: '/widgets/cards'
+    //         },
+    //         // {
+    //         //     title: 'Banners',
+    //         //     icon: PointIcon,
+    //         //     to: '/widgets/banners'
+    //         // },
+    //         {
+    //             title: 'Item PO',
+    //             icon: PointIcon,
+    //             to: '/widgets/charts'
+    //         }
+    //     ]
+    // },
     {
-        title: 'Form Request PO',
-        icon: FileTextIcon,
-        to: '/forms/form-layouts'
-    },
-    {
-        title: 'History Request PO',
-        icon: CurrencyDollarIcon,
-        to: '/pages/pricing'
+        title: 'Purchase Order',
+        icon: AppsIcon,
+        to: '/forms/form-layouts',
+        children: [
+            {
+                title: 'Form Request PO',
+                icon: FileTextIcon,
+                to: '/forms/form-layouts'
+            },
+            {
+                title: 'History Request PO',
+                icon: CurrencyDollarIcon,
+                to: '/pages/pricing'
+            }
+        ]
     }
+    // {
+    //     title: 'Form Request PO',
+    //     icon: FileTextIcon,
+    //     to: '/forms/form-layouts'
+    // },
+    // {
+    //     title: 'History Request PO',
+    //     icon: CurrencyDollarIcon,
+    //     to: '/pages/pricing'
+    // }
 
     // { header: 'Forms' },
     // {

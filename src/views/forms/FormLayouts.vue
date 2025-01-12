@@ -4,15 +4,15 @@ import { ref } from 'vue';
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
 import UiChildCard from '@/components/shared/UiChildCard.vue';
-import OrdinaryForm from "@/components/forms/form-layouts/OrdinaryForm.vue";
-import InputVarients from "@/components/forms/form-layouts/InputVarients.vue";
-import DefaultForm from "@/components/forms/form-layouts/DefaultForm.vue";
+// import OrdinaryForm from "@/components/forms/form-layouts/OrdinaryForm.vue";
+// import InputVarients from "@/components/forms/form-layouts/InputVarients.vue";
+// import DefaultForm from "@/components/forms/form-layouts/DefaultForm.vue";
 import BasicHeaderForm from "@/components/forms/form-layouts/BasicHeaderForm.vue";
-import DisabledForm from "@/components/forms/form-layouts/DisabledForm.vue";
-import FormLeftIcon from "@/components/forms/form-layouts/FormLeftIcon.vue";
-import FormRightIcon from "@/components/forms/form-layouts/FormRightIcon.vue";
+// import DisabledForm from "@/components/forms/form-layouts/DisabledForm.vue";
+// import FormLeftIcon from "@/components/forms/form-layouts/FormLeftIcon.vue";
+// import FormRightIcon from "@/components/forms/form-layouts/FormRightIcon.vue";
 // theme breadcrumb
-const page = ref({ title: 'Form Layouts' });
+const page = ref({ title: 'Form Request PO' });
 const breadcrumbs = ref([
     {
         text: 'Dashboard',
@@ -20,7 +20,7 @@ const breadcrumbs = ref([
         href: '#'
     },
     {
-        text: 'Form Layouts',
+        text: 'Form Request PO',
         disabled: true,
         href: '#'
     }
@@ -31,7 +31,7 @@ const breadcrumbs = ref([
    <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
    <v-row>
         <v-col cols="12">
-            <UiParentCard title="Ordinary Form">
+            <!-- <UiParentCard title="Ordinary Form">
                  <OrdinaryForm/>
             </UiParentCard>
             <UiParentCard title="Input Variants" class="mt-6">
@@ -39,16 +39,16 @@ const breadcrumbs = ref([
             </UiParentCard>
             <UiParentCard title="Default Form" class="mt-6">
                 <DefaultForm/>
-            </UiParentCard>
-            <UiParentCard title="Basic Header Form" class="mt-6">
+            </UiParentCard> -->
+            <UiParentCard title="Purchase Order" class="mt-6">
                 <BasicHeaderForm/>
             </UiParentCard>
-             <UiParentCard title="Disabled Form" class="mt-6">
+             <!-- <UiParentCard title="Disabled Form" class="mt-6">
                 <DisabledForm/>
-             </UiParentCard>
+             </UiParentCard> -->
         </v-col>
         <!----input with icon----->
-        <v-col cols="12" md="6">
+        <!-- <v-col cols="12" md="6">
             <UiParentCard title="Form with Left Icon" >
                 <FormLeftIcon/> 
             </UiParentCard>           
@@ -57,6 +57,6 @@ const breadcrumbs = ref([
             <UiParentCard title="Form with Right Icon" >
                 <FormRightIcon/> 
             </UiParentCard>           
-        </v-col>
+        </v-col> -->
    </v-row>           
 </template>
