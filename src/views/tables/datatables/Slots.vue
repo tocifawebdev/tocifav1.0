@@ -13,7 +13,7 @@ const headers = ref([
     { title: 'Bank Name', key: 'product', align: 'left' },
     { title: 'Rekening Name', key: 'status', align: 'left' },
     { title: 'Rekening Number', key: 'price', align: 'left' },
-    { title: 'Reckening Balance', key: 'rekening', align: 'left', sortable: false },
+    { title: 'Rekening Balance', key: 'rekening', align: 'left', sortable: false },
     { title: 'Actions', key: 'actions', align: 'left', sortable: false }
 ]);
 
