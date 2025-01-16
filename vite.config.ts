@@ -72,16 +72,6 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
-      '/totalpriceperitem': { 
-        target: 'http://127.0.0.1:8000',
-        changeOrigin: true,
-        secure: false,
-      },
-      '/totalallpriceitem': { 
-        target: 'http://127.0.0.1:8000',
-        changeOrigin: true,
-        secure: false,
-      },
       '/datetime': { 
         target: 'http://127.0.0.1:8000',
         changeOrigin: true,

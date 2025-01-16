@@ -4,7 +4,6 @@ from django.db import connection
 from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 
-# Setup logger
 logger = logging.getLogger(__name__)
 
 class UpdateRequestPOAPI(APIView):
@@ -28,32 +27,24 @@ class UpdateRequestPOAPI(APIView):
         """
         Handles PUT requests to update Request PO data.
         """
-        # Parse request data
         data = JSONParser().parse(request)
         logger.info(f"Received data: {data}")
 
-        # Validate required parameter 'poid'
         poid = data.get("poid", "")
         if not poid:
-            logger.error("Missing required parameter 'poid'")
             return JsonResponse({"error": "Missing required parameter 'poid'"}, status=400)
 
-        # Collect parameters
         params = [
             data.get("paymentproof", ""),    # param_paymentproof
             data.get("paymentstatus", ""),   # param_paymentstatus
             data.get("verifstatus", ""),     # param_verifstatus
             data.get("verifnotes", ""),      # param_verifnotes
             poid,                            # param_POid
-            '01700551'          # param_adduser
+            '01700551'                       # param_adduser (hardcoded for example)
         ]
 
-        # Execute the stored procedure
         result = self.execute_sp(params)
 
-        # Handle result
         if "error" in result:
-            logger.error(f"Error response: {result['error']}")
             return JsonResponse(result, status=500)
-        logger.info("Request PO updated successfully")
         return JsonResponse(result, status=200)

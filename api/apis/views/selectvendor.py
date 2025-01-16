@@ -8,17 +8,17 @@ logger = logging.getLogger(__name__)
 
 class VendorDropdownAPI(APIView):
     """
-    API for retrieving vendor data using stored procedure `sp_dropdown_vendor`.
+    API for retrieving vendor data using stored procedure `sp_dropdown_vendor_for_requestpo`.
     """
 
     def execute_sp(self, param_vendordata):
         """
-        Execute the stored procedure `sp_dropdown_vendor` to retrieve vendor data.
+        Execute the stored procedure `sp_dropdown_vendor_for_requestpo` to retrieve vendor data.
         """
         try:
             with connection.cursor() as cursor:
                 # Call the stored procedure with the given parameter
-                cursor.callproc('sp_dropdown_vendor', [param_vendordata])
+                cursor.callproc('sp_dropdown_vendor_for_requestpo', [param_vendordata])
                 # Fetch the results
                 columns = [col[0] for col in cursor.description]  # Get column names dynamically
                 result = cursor.fetchall()

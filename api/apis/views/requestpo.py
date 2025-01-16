@@ -29,7 +29,7 @@ class RequestPOAPI(APIView):
         """
         Handles READ operation. Returns all PO records.
         """
-        params = ["", "", "", "", "", "", "", "", "", ""]
+        params = ["", "", "", "", "", "","", "", "", "", ""]
         result = self.execute_sp("READ", params)
         if "error" in result:
             return JsonResponse(result, status=500)
@@ -46,11 +46,12 @@ class RequestPOAPI(APIView):
             data.get("itemname", ""),
             data.get("itemdesc", ""),
             data.get("itemprice", ""),
+            data.get("itemunit", ""),  # Tambahkan parameter itemunit
             data.get("itemqty", ""),
             data.get("paymentproof", ""),
             data.get("submitnotes", ""),
-            "",
-            '01700551'
+            "",  # PO ID is empty for INSERT
+            '01700551'  # Admin ID (hardcoded for now)
         ]
         result = self.execute_sp("INSERT", params)
         if "error" in result:
@@ -63,7 +64,7 @@ class RequestPOAPI(APIView):
         """
         data = JSONParser().parse(request)
         params = [
-            "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "",
             data.get("poid", ""),
             '01700551'
         ]

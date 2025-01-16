@@ -31,22 +31,17 @@ class VendorItemDropdownAPI(APIView):
             return {"error": f"An error occurred: {str(e)}"}
 
     def get(self, request):
-        """
-        Handles GET requests to retrieve vendor item data.
-        """
-        # Get the 'vendordata' parameter from the request
-        param_vendordata = request.GET.get('vendordata', '')
+        param_vendordata = request.GET.get('vendordata', '').strip()
 
-        # Log the received parameter
-        logger.info(f"Received parameter: vendordata = {param_vendordata}")
-
-        # Execute the stored procedure
+        # Jika parameter kosong, log peringatan
+        if not param_vendordata:
+            logger.warning("Parameter 'vendordata' is empty. Returning all items.")
+        
         result = self.execute_sp(param_vendordata)
 
-        # Return the result
+        # Jika terjadi error, tangani dengan respons JSON
         if "error" in result:
-            logger.error(f"Error response: {result['error']}")
-            return JsonResponse(result, status=404)
+            logger.error(f"Error executing stored procedure: {result['error']}")
+            return JsonResponse({"error": result['error']}, status=500)
 
-        logger.info("Successfully retrieved vendor item data.")
         return JsonResponse(result, safe=False, status=200)

@@ -13,12 +13,9 @@ from .views.locklimitrekening import LockLimitRekeningAPI
 from .views.requestpo import RequestPOAPI
 from .views.updaterequestpo import UpdateRequestPOAPI
 from .views.vendoritempriceunit import VendorItemPriceUnitAPI
-from .views.totalpriceperitem import TotalPricePerItemAPI
-from .views.totalallpriceitem import TotalPriceAllItemAPI
 from .views.datetime import DateTimeAPI
 from .views.selectvendoritem import VendorItemDropdownAPI
 from .views.selectvendor import VendorDropdownAPI
-# from .views.vendorinfo import VendorInfoAPI
 from django.http import HttpResponse
 
 
@@ -73,12 +70,6 @@ urlpatterns = [
     # Vendor Item Price Unit Endpoints API
     path('vendoritempriceunit/', VendorItemPriceUnitAPI.as_view(), name='vendor_item_price_unit'),
 
-    # Total Price Per Item Endpoints API
-    path('totalpriceperitem/', TotalPricePerItemAPI.as_view(), name='total_price_per_item'),
-
-    # Total Price All Item Endpoints API
-    path('totalallpriceitem/', TotalPriceAllItemAPI.as_view(), name='total_all_price_item'),
-
     # Date Time Endpoints API
     path('datetime/', DateTimeAPI.as_view(), name='date_time'),
 
@@ -88,8 +79,6 @@ urlpatterns = [
     # Select Vendor Endpoints API
     path('selectvendor/', VendorDropdownAPI.as_view(), name='select_vendor'),
 
-    # # Vendor Info Endpoints API
-    # path('vendorinfo/', VendorInfoAPI.as_view(), name='vendor_info'),
 
     # Token Authentication
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
