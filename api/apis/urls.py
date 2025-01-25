@@ -16,8 +16,15 @@ from .views.vendoritempriceunit import VendorItemPriceUnitAPI
 from .views.datetime import DateTimeAPI
 from .views.selectvendoritem import VendorItemDropdownAPI
 from .views.selectvendor import VendorDropdownAPI
-from django.http import HttpResponse
+from .views.itemmanagement import ItemManagementAPI
+from .views.itemmanagement import handle_download_template 
+from .views.requestso import RequestSOAPI
+from .views.updaterequestso import UpdateRequestSOAPI
+from .views.selectcustomer import CustomerDropdownAPI
+from .views.selectcustomeritem import CustomerItemDropdownAPI
+from .views.customeritempriceunit import CustomerItemPriceUnitAPI
 
+from django.http import HttpResponse
 
 # Home view function
 def home_view(request):
@@ -79,6 +86,26 @@ urlpatterns = [
     # Select Vendor Endpoints API
     path('selectvendor/', VendorDropdownAPI.as_view(), name='select_vendor'),
 
+    # Item IN/OUT Management Endpoints API
+    path('itemmanagement/', ItemManagementAPI.as_view(), name='item_management'),
+
+    # Item Donwload IN/OUT dpoints API
+    path('itemmanagement/template/<str:category>/', handle_download_template, name='handle_download_template'),
+
+     # RequestPO Endpoints API
+    path('requestso/', RequestSOAPI.as_view(), name='requst_So'),
+
+     # Update RequestPO Endpoints API
+    path('updaterequestso/', UpdateRequestSOAPI.as_view(), name='update_requst_so'),
+
+    # Select Vendor Item Endpoints API
+    path('selectcustomer/', CustomerDropdownAPI.as_view(), name='select_customer'),
+
+     # Select Vendor Item Endpoints API
+    path('selectcustomeritem/', CustomerItemDropdownAPI.as_view(), name='select_customer_item'),
+
+     # Select Vendor Endpoints AP
+    path('customeritempriceunit/', CustomerItemPriceUnitAPI.as_view(), name='customer_item_price_unit'),
 
     # Token Authentication
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
