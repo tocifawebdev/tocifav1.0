@@ -5,6 +5,7 @@ import { fetchVendorItems } from '@/_mockApis/apps/requestpo/indexSelectVendorIt
 import { fetchCurrentDateTime } from '@/_mockApis/apps/requestpo/indexDateTime';
 import { addRequestPO } from '@/_mockApis/apps/requestpo/indexRequestPo';
 
+// State untuk data form
 const purchaseDate = ref('');
 const vendors = ref<{ VendorData: string; Address: string; Phone: string }[]>([]);
 const selectedVendor = ref<{ VendorData: string; Address: string; Phone: string; BankAccount: string } | null>(null);
@@ -18,7 +19,7 @@ const items = ref<
 const dialog = ref(false);
 const notification = ref('');
 const paymentMethod = ref('');
-const adminId = ref('91790331');
+const adminId = ref('01700551');
 const editedItem = ref({ verificationStatus: '', paymentStatus: '' });
 
 // Get current datetime 
@@ -134,18 +135,17 @@ const submitForm = async () => {
     itemprice: validItems.map((item) => item.harga).join('|'),
     itemunit: validItems.map((item) => item.type).join('|'),
     itemqty: validItems.map((item) => item.jumlah).join('|'),
-    paymentproof: null,
     submitnotes: editedItem.value.paymentStatus || 'Notes Example',
   };
 
   try {
     const response = await addRequestPO(requestData);
     console.log('API response:', response);
-    notification.value = 'Purchase Order submitted successfully!';
+    notification.value = 'Request PO submitted successfully!';
     items.value = [];
   } catch (error) {
-    console.error('Failed to submit purchase order:', error);
-    notification.value = 'Failed to submit purchase order.';
+    console.error('Failed to submit requestpo data:', error);
+    notification.value = 'Failed to submit requestpo data.';
   } finally {
     dialog.value = false;
   }
@@ -248,7 +248,6 @@ onMounted(() => {
             return-object
             variant="outlined"
             color="primary"
-            label="Select Item"
           />
           <v-label class="mb-2 font-weight-medium">Item Price</v-label>
           <v-text-field v-model="item.harga" variant="outlined" color="primary" readonly></v-text-field>
@@ -280,18 +279,11 @@ onMounted(() => {
             color="primary"
             readonly
           ></v-text-field>
-          <v-label class="mb-2 font-weight-medium">Payment Recipe</v-label>
-          <v-file-input
-            accept="image/*"
-            label="File input"
-            hide-details
-            variant="outlined"
-          ></v-file-input>   
+          <v-label class="mb-2 font-weight-medium">Payment Method</v-label>
+          <v-text-field v-model="paymentMethod" variant="outlined" color="primary" readonly></v-text-field> 
         </v-col>                  
       <!-- Bagian Payment Recipe, Payment Method, Admin Id -->                       
         <v-col cols="12" md="6">
-          <v-label class="mb-2 font-weight-medium">Payment Method</v-label>
-          <v-text-field v-model="paymentMethod" variant="outlined" color="primary" readonly></v-text-field>
           <v-label class="mb-2 font-weight-medium">Admin Id</v-label>
           <v-text-field v-model="adminId" variant="outlined" color="primary" readonly></v-text-field>
         </v-col>

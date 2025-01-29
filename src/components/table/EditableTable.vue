@@ -18,14 +18,14 @@ const valid = ref(true);
 const dialog = ref(false);
 const search = ref('');
 const rolesbg = ref(['Admin', 'Management']);
-const baseUrl = import.meta.env.BASE_URL;
-const adminAvatar = `${baseUrl}src/assets/images/profile/user-1.jpg`;
-const managementAvatar = `${baseUrl}src/assets/images/profile/user-3.jpg`;
+// const baseUrl = import.meta.env.BASE_URL;
+// const adminAvatar = `${baseUrl}src/assets/images/profile/user-1.jpg`;
+// const managementAvatar = `${baseUrl}src/assets/images/profile/user-3.jpg`;
 const desserts = ref<User[]>([]);
 const editedIndex = ref(-1);
 const editedItem = ref<User>({
   id: '',
-  avatar: adminAvatar,
+  avatar: '',
   userinfo: '',
   usermail: '',
   phone: '',
@@ -67,7 +67,7 @@ function close() {
     setTimeout(() => {
         editedItem.value = {
             id: '',
-            avatar: adminAvatar,
+            avatar: '',
             userinfo: '',
             usermail: '',
             phone: '',

@@ -2,22 +2,49 @@
 import { ref, onMounted } from 'vue';
 import { EditIcon } from 'vue-tabler-icons';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
-import { fetchMoneyManagementItems, updateMoneyManagementItem } from '@/_mockApis/components/moneymanagement/indexMoneymanagement'; // API untuk rekening
-import { updateLockRekeningStatus } from '@/_mockApis/components/moneymanagement/indexLockLimitRekening'; 
+import { fetchMoneyManagementItems, updateMoneyManagementItem } from '@/_mockApis/components/moneymanagement/indexMoneymanagement'; // API untuk data Money Management
+import { updateLockRekeningStatus } from '@/_mockApis/components/moneymanagement/indexLockLimitRekening'; // API untuk Lock Rekening
+import { fetchSummaryPOSO } from '@/_mockApis/components/moneymanagement/indexSummaryPOSO'; // API untuk rangkuman PO & SO
+import dayjs from 'dayjs';
 
 const search = ref('');
 const dialog = ref(false);
+
+// Header untuk tabel "Money Management"
 const headers = ref([
     { title: 'No', key: 'no', align: 'left' },
     { title: 'Rekening ID', key: 'id', align: 'left' },
     { title: 'Bank Name', key: 'product', align: 'left' },
     { title: 'Rekening Name', key: 'status', align: 'left' },
     { title: 'Rekening Number', key: 'price', align: 'left' },
+    { title: 'Piutang', key: 'receivables', align: 'left' },
+    { title: 'Hutang', key: 'payables', align: 'left' },
+    { title: 'Laba / Rugi', key: 'totalpayrec', align: 'left' },
     { title: 'Rekening Balance', key: 'rekening', align: 'left', sortable: false },
     { title: 'Actions', key: 'actions', align: 'left', sortable: false }
 ]);
 
-const productlist = ref([]);
+// Header untuk tabel "Rangkuman PO & SO"
+const headersSummaryPOSO = ref([
+    { title: 'No', key: 'no', align: 'left' },
+    { title: 'PO/SO ID', key: 'po_so_id', align: 'left' },
+    { title: 'Order Date', key: 'order_date', align: 'left' },
+    { title: 'Item Name', key: 'item_name', align: 'left' },
+    { title: 'Item Price', key: 'item_price', align: 'left' },
+    { title: 'Item Quantity', key: 'item_qty', align: 'left' },
+    { title: 'Total Item Price', key: 'total_item_price', align: 'left' },
+    { title: 'Payment Status', key: 'payment_status', align: 'left' },
+    { title: 'Rekening Balance', key: 'rekening_balance', align: 'left' },
+    { title: 'Add User', key: 'add_user', align: 'left' },
+]);
+
+const productlist = ref([]); // Data untuk Money Management
+const summaryPOSOList = ref([]); // Data untuk Rangkuman PO & SO
+
+function formatOrderDate(date) {
+    return dayjs(date).format('YYYY-MM-DD hh:mm:ss A');
+}
+
 const editedItem = ref({
     id: '',
     product: '',
@@ -28,6 +55,7 @@ const editedItem = ref({
 const editedIndex = ref(-1);
 const dialogTitle = ref('');
 
+// Fetch data Money Management
 async function fetchRekeningData() {
     try {
         const response = await fetchMoneyManagementItems(); 
@@ -35,21 +63,39 @@ async function fetchRekeningData() {
             id: item.id,
             product: item.product,     // Bank Name
             status: item.status,       // Rekening Name
-            price: item.price,         // Rekening Balance
-            rekening: item.rekening,         // Rekening Balance
-            isActive: item.isActive,   // Status lock (ON/OFF)
+            price: item.price,         // Nomor Rekening
+            receivables: item.receivables,  // Piutang
+            payables: item.payables,   // Hutang
+            totalpayrec: item.totalpayrec,  // Total Piutang-Hutang
+            rekening: item.rekening,   // Nominal Saldo Rekening
+            isActive: item.isActive === "1",   // Status lock (ON/OFF)
         }));
     } catch (error) {
         console.error('Failed to fetch rekening data:', error.message);
     }
 }
 
+const loadSummaryPOSO = async () => {
+    try {
+        const data = await fetchSummaryPOSO(); // Panggil API
+        console.log('Fetched Summary POSO Data:', data); // Pastikan data muncul di console
+        summaryPOSOList.value = data; // Simpan data ke state
+    } catch (error) {
+        console.error('Failed to load summary POSO data:', error);
+    }
+};
+
 // Fungsi untuk toggle lock/unlock rekening
 async function toggleStatus(item) {
     try {
+        // Tentukan status baru (true untuk ON, false untuk OFF)
         const newStatus = !item.isActive;
-        await updateLockRekeningStatus(newStatus); 
-        item.isActive = newStatus; 
+
+        // Panggil fungsi API untuk memperbarui status di server
+        await updateLockRekeningStatus(newStatus);
+
+        // Perbarui status di UI
+        item.isActive = newStatus;
     } catch (error) {
         console.error('Failed to toggle status:', error.message);
         alert('Gagal mengubah status rekening.');
@@ -85,11 +131,13 @@ async function save() {
 
 onMounted(() => {
     fetchRekeningData();
+    loadSummaryPOSO();
 });
 </script>
 
 <template>
     <v-row>
+        <!-- Tabel Money Management -->
         <v-col cols="12">
             <UiParentCard title="Money Management">
                 <v-data-table
@@ -117,26 +165,38 @@ onMounted(() => {
                     <template v-slot:item.price="{ item }">
                         <span class="text-subtitle-1 text-left">{{ item.price }}</span>
                     </template>
+                    <template v-slot:item.receivables="{ item }">
+                        <span class="text-subtitle-1 text-left">{{ item.receivables }}</span>
+                    </template>
+                    <template v-slot:item.payables="{ item }">
+                        <span class="text-subtitle-1 text-left">{{ item.payables }}</span>
+                    </template>
+                    <template v-slot:item.totalpayrec="{ item }">
+                        <span class="text-subtitle-1 text-left">{{ item.totalpayrec }}</span>
+                    </template>
                     <template v-slot:item.rekening="{ item }">
                         <span class="text-subtitle-1 text-left">{{ item.rekening }}</span>
                     </template>
                     <template v-slot:item.actions="{ item }">
-                        <div class="d-flex gap-2 justify-left align-center">
+                        <div class="d-flex gap-2 justify-center align-center">
+                            <!-- Ikon edit -->
                             <EditIcon
-                                height="20"
-                                width="20"
-                                class="text-primary cursor-pointer"
-                                size="small"
-                                @click="editItem(item)"
+                            height="20"
+                            width="20"
+                            class="text-primary cursor-pointer"
+                            size="small"
+                            @click="editItem(item)"
                             />
+
+                            <!-- Tombol toggle -->
                             <button
-                                :class="['toggle-button', { active: item.isActive }]"
-                                @click="toggleStatus(item)"
+                            :class="['toggle-button', { active: item.isActive }]"
+                            @click="toggleStatus(item)"
                             >
-                                {{ item.isActive ? 'ON' : 'OFF' }}
+                            {{ item.isActive ? 'ON' : 'OFF' }}
                             </button>
                         </div>
-                    </template>
+                        </template>
                 </v-data-table>
             </UiParentCard>
         </v-col>
@@ -187,6 +247,57 @@ onMounted(() => {
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <!-- Tabel Rangkuman PO & SO -->
+        <v-col cols="12">
+            <UiParentCard title="Rangkuman PO & SO">
+                <v-data-table
+                class="rounded-md datatabels summarylist"
+                :headers="headersSummaryPOSO"
+                :items="summaryPOSOList"
+                items-per-page="5"
+                color="primary"
+                >
+                    <template v-slot:item.no="{ index }">
+                        <span>{{ index + 1 }}</span>
+                    </template>
+                    <template v-slot:item.po_so_id="{ item }">
+                        <span>{{ item.po_so_id }}</span>
+                    </template>
+                    <template v-slot:item.order_date="{ item }">
+                        <span class="text-subtitle-1 text-left">
+                            {{ formatOrderDate(item.order_date) }}
+                        </span>
+                    </template>
+                    <template v-slot:item.item_name="{ item }">
+                        <ul>
+                            <li v-for="name in item.item_name.split('|')" :key="name">{{ name }}</li>
+                        </ul>
+                    </template>
+                    <template v-slot:item.item_price="{ item }">
+                        <ul>
+                            <li v-for="name in item.item_price.split('|')" :key="name">{{ name }}</li>
+                        </ul>
+                    </template>
+                    <template v-slot:item.item_qty="{ item }">
+                        <ul>
+                            <li v-for="name in item.item_qty.split('|')" :key="name">{{ name }}</li>
+                        </ul>
+                    </template>
+                    <template v-slot:item.total_item_price="{ item }">
+                        <span>{{ item.total_item_price }}</span>
+                    </template>
+                    <template v-slot:item.payment_status="{ item }">
+                        <span>{{ item.payment_status }}</span>
+                    </template>
+                    <template v-slot:item.rekening_balance="{ item }">
+                        <span>{{ item.rekening_balance }}</span>
+                    </template>
+                    <template v-slot:item.add_user="{ item }">
+                        <span>{{ item.add_user }}</span>
+                    </template>
+                </v-data-table>
+            </UiParentCard>
+        </v-col>
     </v-row>
 </template>
 

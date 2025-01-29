@@ -8,7 +8,6 @@ import UiChildCard from '@/components/shared/UiChildCard.vue';
 // import InputVarients from "@/components/forms/form-layouts/InputVarients.vue";
 // import DefaultForm from "@/components/forms/form-layouts/DefaultForm.vue";
 import BasicHeaderForm from "@/components/forms/form-layouts/BasicHeaderForm.vue";
-// import DisabledForm from "@/components/forms/form-layouts/DisabledForm.vue";
 // import FormLeftIcon from "@/components/forms/form-layouts/FormLeftIcon.vue";
 // import FormRightIcon from "@/components/forms/form-layouts/FormRightIcon.vue";
 // theme breadcrumb
@@ -43,9 +42,6 @@ const breadcrumbs = ref([
             <UiParentCard title="Purchase Order" class="mt-6">
                 <BasicHeaderForm/>
             </UiParentCard>
-             <!-- <UiParentCard title="Disabled Form" class="mt-6">
-                <DisabledForm/>
-             </UiParentCard> -->
         </v-col>
         <!----input with icon----->
         <!-- <v-col cols="12" md="6">

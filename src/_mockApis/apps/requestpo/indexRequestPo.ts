@@ -6,7 +6,7 @@ export type KeyedObject = {
 
 const REQUEST_PO_API_URL = 'http://127.0.0.1:8000/requestpo/';
 
-// Fetch all Purchase Orders (READ)
+// Fetch all requestpo data (READ)
 export const fetchRequestPOs = async (): Promise<KeyedObject[]> => {
   try {
     const response = await axios.get(REQUEST_PO_API_URL);
@@ -16,12 +16,12 @@ export const fetchRequestPOs = async (): Promise<KeyedObject[]> => {
       vendorName: item.VendorName || '',
       vendorAddress: item.VendorAddress || '',
       vendorPhone: item.VendorPhone || '',
-      itemName: item.ItemName_View || '',
-      itemDesc: item.ItemDesc_View || '',
-      itemPrice: item.ItemPrice_View || '',
-      itemQty: item.ItemQty_View || '',
-      totalPrice: item.TotalPrice_View || '',
-      alltotalPrice: item.AllTotalPrice || '',
+      itemName: item.ItemName_view || '',
+      itemDesc: item.ItemDesc_view || '',
+      itemPrice: item.ItemPrice_view || '',
+      itemQty: item.ItemQty_view || '',
+      totalPrice: item.SubTotalPrice_view || '',
+      alltotalPrice: item.TotalPrice_view || '',
       vendorBankAccount: item.VendorBankAccount || '',
       paymentStatus: item.PaymentStatus || '',
       paymentProof: item.PaymentProof || '',
@@ -32,12 +32,12 @@ export const fetchRequestPOs = async (): Promise<KeyedObject[]> => {
       verificationNotes: item.VerificationNotes || '',
     }));
   } catch (error) {
-    console.error('Error fetching purchase orders from API:', error);
-    throw new Error('Failed to fetch purchase orders');
+    console.error('Error fetching requestpo data from API:', error);
+    throw new Error('Failed to fetch requestpo data');
   }
 };
 
-// Add a new Purchase Order (INSERT)
+// Add a new requestpo data (INSERT)
 export const addRequestPO = async (newRequestPO: KeyedObject): Promise<void> => {
   try {
     await axios.post(REQUEST_PO_API_URL, {
@@ -48,12 +48,11 @@ export const addRequestPO = async (newRequestPO: KeyedObject): Promise<void> => 
       itemprice: newRequestPO.itemprice,
       itemunit: newRequestPO.itemunit, // Tambahkan itemunit
       itemqty: newRequestPO.itemqty,
-      paymentproof: newRequestPO.paymentproof,
       submitnotes: newRequestPO.submitnotes,
     });
   } catch (error) {
-    console.error('Error adding purchase order:', error);
-    throw new Error('Failed to add purchase order');
+    console.error('Error adding requestpo data:', error);
+    throw new Error('Failed to add requestpo data');
   }
 };
 
@@ -75,7 +74,7 @@ export const updateRequestPO = async (poId: string, data: Record<string, string 
   }
 };
 
-// Delete a Purchase Order (DELETE)
+// Delete a requestpo data (DELETE)
 export const deleteRequestPO = async (poId: string): Promise<void> => {
   try {
     await axios.delete(REQUEST_PO_API_URL, {
@@ -85,7 +84,7 @@ export const deleteRequestPO = async (poId: string): Promise<void> => {
       },
     });
   } catch (error) {
-    console.error('Error deleting purchase order:', error);
-    throw new Error('Failed to delete purchase order');
+    console.error('Error deleting requestpo data:', error);
+    throw new Error('Failed to delete requestpo data');
   }
 };

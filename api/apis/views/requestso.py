@@ -39,22 +39,22 @@ class RequestSOAPI(APIView):
         """
         Handles INSERT operation to create a new SO record.
         """
-        data = JSONParser().parse(request)
+        data = JSONParser().parse(request)  # Parse JSON request
         params = [
-            data.get("orderdate", ""),
-            data.get("customerdata", ""),
-            data.get("itemname", ""),
-            data.get("itemdesc", ""),
-            data.get("itemprice", ""),
-            data.get("itemunit", ""),
-            data.get("itemqty", ""),
-            data.get("itemaddprice", ""),
-            data.get("ppn", ""),
-            data.get("submitnotes", ""),
-            "",  # SO ID is empty for INSERT
-            '01700551'  # Admin ID (hardcoded for now)
+            data.get("orderdate", ""),  # Purchase date
+            data.get("customerdata", ""),  # Customer data
+            data.get("itemname", ""),  # Concatenated item names
+            data.get("itemdesc", ""),  # Concatenated item descriptions
+            data.get("itemprice", ""),  # Concatenated item prices
+            data.get("itemunit", ""),  # Concatenated item units
+            data.get("itemqty", ""),  # Concatenated item quantities
+            data.get("itemaddprice", ""),  # Additional price
+            data.get("ppn", ""),  # Tax percentage
+            data.get("submitnotes", ""),  # Submission notes
+            "",  # SO ID (empty for insert)
+            '01700551',  # Admin ID (hardcoded for now)
         ]
-        result = self.execute_sp("INSERT", params)
+        result = self.execute_sp("INSERT", params)  # Call stored procedure
         if "error" in result:
             return JsonResponse(result, status=500)
         return JsonResponse(result, status=201)

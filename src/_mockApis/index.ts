@@ -1,6 +1,6 @@
 import mock from './mockAdapter';
 
-import './apps/chat';
+import './apps/uploaditem';
 import './apps/supplymanagement';
 import './apps/userprofile/posts';
 import './apps/userprofile/followers';
@@ -13,7 +13,7 @@ import './apps/notes';
 import './apps/requestpo';
 import './apps/email';
 import './apps/invoice';
-import './apps/usermanagement/indexUsermanagement';
+import './apps/usermanagement';
 import './headerData';
 import './apps/kanban';
 

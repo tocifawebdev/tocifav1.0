@@ -92,7 +92,33 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
-
+      '/itemmanagement': { 
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/listkategori': { 
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/requestso': { 
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/updaterequestso': { 
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/customeritempriceunit': { 
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        secure: false,
+      },
+      
+      
 
 
 

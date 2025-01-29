@@ -10,14 +10,16 @@ const fetchContacts = async () => {
         const response = await axios.get('http://127.0.0.1:8000/usermanagement');
         const fetchedContacts = response.data.map((item: any) => ({
             id: item.id || item.UserID, 
-            avatar: '', 
+            avatar: item.user_level === 'Admin'
+            ? `${import.meta.env.BASE_URL}src/assets/images/profile/user-1.jpg`
+            : `${import.meta.env.BASE_URL}src/assets/images/profile/user-3.jpg`,
             userinfo: item.username || item.Username, 
             usermail: item.email || item.Email,
             phone: item.id || '', 
             jdate: item.add_time || item.AddTime || '', 
             role: item.user_level || item.UserLevel || 'Unknown', 
             password: item.password || item.Password || 'N/A',
-            rolestatus: item.user_level === 'Admin' ? 'rgba(255, 0, 0, 0.2)' : 'rgba(0, 128, 0, 0.2)' // Set based on role
+            rolestatus: item.user_level === 'Admin' ? 'rgba(255, 0, 0, 0.2)' : 'rgba(0, 128, 0, 0.2)'  // Set based on role
         }));
         contacts.splice(0, contacts.length, ...fetchedContacts);
         return fetchedContacts;

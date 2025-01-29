@@ -388,16 +388,16 @@ const sidebarItem: menu[] = [
         children: [
             {
                 title: 'Form Request PO',
-                icon: FileTextIcon,
+                icon: PointIcon,
                 to: '/forms/form-layouts'
             },
             {
                 title: 'History Request PO',
-                icon: CurrencyDollarIcon,
+                icon: PointIcon,
                 to: '/pages/pricing'
             }
         ]
-    }
+    },
     // {
     //     title: 'Form Request PO',
     //     icon: FileTextIcon,
@@ -410,11 +410,42 @@ const sidebarItem: menu[] = [
     // }
 
     // { header: 'Forms' },
-    // {
-    //     title: 'Form Elements',
-    //     icon: AppsIcon,
-    //     to: '/components/',
-    //     children: [
+    {
+        title: 'Item In-Out',
+        icon: BoxMultipleIcon,
+        to: '/forms/form-vertical',
+        children: [
+            {
+                title: 'Upload Item',
+                icon: PointIcon,
+                to: '/forms/form-vertical'
+            },
+            {
+                title: 'History Upload Item',
+                icon: PointIcon,
+                to: '/tables/HistoryInOutItem'
+            }
+        ]
+    },
+
+    {
+        title: 'Sales Order',
+        icon: AppsIcon,
+        to: '/forms/form-validation',
+        children: [
+            {
+                title: 'Form Request SO',
+                icon: PointIcon,
+                to: '/forms/form-validation'
+            },
+            {
+                title: 'History Request SO',
+                icon: PointIcon,
+                to: '/pages/HistorySO'
+            }
+        ]
+    },
+    
             // {
             //     title: 'Autocomplete',
             //     icon: PointIcon,

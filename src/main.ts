@@ -3,6 +3,7 @@ import { createPinia } from 'pinia';
 import App from './App.vue';
 import { router } from './router';
 import vuetify from './plugins/vuetify';
+import 'vuetify/styles';
 import '@/scss/style.scss';
 import PerfectScrollbar from 'vue3-perfect-scrollbar';
 import VueApexCharts from 'vue3-apexcharts';

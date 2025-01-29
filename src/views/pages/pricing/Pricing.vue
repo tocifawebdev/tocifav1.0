@@ -19,7 +19,7 @@ const headers = ref([
   { title: 'Vendor Phone', key: 'vendorPhone', align: 'left' },
   { title: 'Item Name', key: 'itemName', align: 'left' },
   { title: 'Item Description', key: 'itemDesc', align: 'left' },
-  { title: 'Item Price (Per Unit)', key: 'itemPrice', align: 'left' },
+  { title: 'Item Price / Unit', key: 'itemPrice', align: 'left' },
   { title: 'Item Quantity', key: 'itemQty', align: 'left' },
   { title: 'Total Price', key: 'totalPrice', align: 'left' },
   { title: 'All Total', key: 'alltotalPrice', align: 'left' },
@@ -76,6 +76,15 @@ const validateUpdateFields = computed(() => {
     !!editedPO.value.verificationNotes // Periksa apakah verificationNotes memiliki nilai
   );
 });
+
+const handleFileUpload = (event) => {
+  const file = event.target.files[0]; // Ambil file pertama yang diunggah
+  if (file) {
+    editedPO.value.paymentProof = file.name; // Simpan nama file ke dalam state
+  } else {
+    editedPO.value.paymentProof = null; // Reset jika tidak ada file yang dipilih
+  }
+};
 
 // Fungsi untuk membuka dialog Update
 const openUpdateDialog = (item) => {
@@ -307,11 +316,11 @@ onMounted(() => {
                         </v-col>
                         <v-col cols="12">
                             <v-file-input
-                            v-model="editedPO.paymentProof"
-                            label="Upload Payment Proof"
-                            accept="image/*"
-                            variant="outlined"
-                            color="primary"
+                                label="Upload Payment Proof"
+                                accept="image/*"
+                                variant="outlined"
+                                color="primary"
+                                @change="handleFileUpload"
                             />
                         </v-col>
                     </v-row>

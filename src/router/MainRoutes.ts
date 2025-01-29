@@ -235,6 +235,11 @@ const MainRoutes = {
             component: () => import('@/views/tables/TableBasic.vue')
         },
         {
+            name: 'History In-Out Item',
+            path: '/tables/HistoryInOutItem',
+            component: () => import('@/views/tables/HistoryInOutItem.vue')
+        },
+        {
             name: 'Dark Table',
             path: '/tables/dark',
             component: () => import('@/views/tables/TableDark.vue')
@@ -392,8 +397,8 @@ const MainRoutes = {
         },
         {
             name: 'Social Media Contacts',
-            path: '/pages/social-media-contacts',
-            component: () => import('@/views/pages/social-media/SocialMedia.vue')
+            path: '/pages/HistorySO',
+            component: () => import('@/views/pages/pricing/HistorySO.vue')
         },
         {
             name: 'Line',

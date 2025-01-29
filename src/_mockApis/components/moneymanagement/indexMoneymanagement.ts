@@ -13,10 +13,14 @@ export const fetchMoneyManagementItems = async (): Promise<KeyedObject[]> => {
             id: item.ReckID || '',          // Rekening ID
             product: item.BankName || '',   // Bank Name
             status: item.ReckName || '',    // Rekening Name
-            price: item.ReckNum || '',  // Rekening Balance
-            rekening: item.ReckBalance || '',  // Rekening Nominal
+            price: item.ReckNum || '',  // Nomor Rekening
+            receivables: item.Receivables || '',  // Piutang
+            payables: item.Payables || '',  // Hutang
+            totalpayrec: item.TotalPayRec || '',  // Total Piutang-Hutang
+            rekening: item.ReckBalance || '',  // Nominal Saldo Rekening
             add_time: item.AddTime || '',   // Waktu Penambahan
             upd_time: item.UpdTime || '',   // Waktu Pembaruan
+            isActive: item.LockReck || '',   // Lock Rekening
         }));
     } catch (error) {
         console.error('Error fetching money management items from API:', error);
@@ -39,4 +43,3 @@ export const updateMoneyManagementItem = async (updatedMoneyManagementItem: Keye
         throw new Error('Failed to update money management item');
     }
 };
-

@@ -15,10 +15,11 @@ import AccountDetailsTab from '@/components/forms/form-vertical/AccountDetailsTa
 import SocialLinksTab from '@/components/forms/form-vertical/SocialLinksTab.vue';
 
 /*tab*/
+/*tab*/
 const tab = ref(null);
 
 // theme breadcrumb
-const page = ref({ title: 'Vertical Form' });
+const page = ref({ title: 'Upload Item' });
 const breadcrumbs = ref([
     {
         text: 'Dashboard',
@@ -26,7 +27,7 @@ const breadcrumbs = ref([
         href: '#'
     },
     {
-        text: 'Vertical Form',
+        text: 'Upload Item',
         disabled: true,
         href: '#'
     }
@@ -36,7 +37,7 @@ const breadcrumbs = ref([
 <template>
    <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
    <v-row>
-        <v-col cols="12" md="6">
+        <!-- <v-col cols="12" md="6">
             <UiParentCard title="Basic Layout">
                 <BasicLayout/>
             </UiParentCard>           
@@ -51,30 +52,11 @@ const breadcrumbs = ref([
         </v-col>
         <v-col cols="12">
             <Collapsible/>        
-        </v-col>
+        </v-col> -->
         <v-col cols="12">
-            <h5 class="text-h5 mb-6 mt-3">Form with Tabs</h5>
-            <v-card elevation="10" class=" " rounded="md">
-                <v-tabs v-model="tab" bg-color="transparent" color="primary">
-                    <v-tab value="PersonalInfo" class="text-medium-emphasis">Personal Info</v-tab>
-                    <v-tab value="AccountDetails" class="text-medium-emphasis">Account Details</v-tab>
-                    <v-tab value="SocialLinks" class="text-medium-emphasis">Social Links</v-tab>
-                </v-tabs>
-                <v-divider></v-divider>
-                <v-card-text class="pa-sm-6 pa-3 pb-sm-6 pb-6">
-                    <v-window v-model="tab">
-                        <v-window-item value="PersonalInfo">
-                            <PersonalInfoTab/>
-                        </v-window-item>
-                        <v-window-item value="AccountDetails">
-                            <AccountDetailsTab/>
-                        </v-window-item>
-                        <v-window-item value="SocialLinks">
-                            <SocialLinksTab/>
-                        </v-window-item>
-                    </v-window>
-                </v-card-text>
-            </v-card>    
+            <UiParentCard title="Upload Item" class="mt-6">
+            <PersonalInfoTab/>
+            </UiParentCard>
         </v-col>
    </v-row>           
 </template>

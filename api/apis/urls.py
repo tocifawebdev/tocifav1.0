@@ -8,7 +8,7 @@ from .views.login import LoginAPI
 from .views.vendoritem import VendorItemAPI
 from .views.listvendor import ListVendorAPI
 from .views.customeritem import CustomerItemAPI
-from .views.moneymanagement import MoneyManagementAPI
+from .views.moneymanagement import MoneyManagementAPI, SummaryPOSOAPI
 from .views.locklimitrekening import LockLimitRekeningAPI
 from .views.requestpo import RequestPOAPI
 from .views.updaterequestpo import UpdateRequestPOAPI
@@ -64,6 +64,9 @@ urlpatterns = [
 
     # Money Management Endpoints API
     path('moneymanagement/', MoneyManagementAPI.as_view(), name='money_management'),
+
+    # Summary PO SO Endpoints API
+    path('summary_po_so/', SummaryPOSOAPI.as_view(), name='summary-po-so'),
 
     # Lock Limit Rekening Endpoints API
     path('locklimitrekening/', LockLimitRekeningAPI.as_view(), name='lock_limit_rekening'),

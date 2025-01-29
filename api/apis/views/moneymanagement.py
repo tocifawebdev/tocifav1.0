@@ -46,3 +46,18 @@ class MoneyManagementAPI(APIView):
             else:  # Untuk operasi non-SELECT
                 result = {"message": "Operation completed successfully"}
         return result
+
+class SummaryPOSOAPI(APIView):
+    def get(self, request, *args, **kwargs):
+        """
+        Handle READ operation for summary_po_so
+        """
+        try:
+            with connection.cursor() as cursor:
+                # Panggil stored procedure untuk fetch data summary_po_so
+                cursor.callproc('sp_summary_po_so')
+                columns = [col[0] for col in cursor.description]  # Ambil nama kolom
+                result = [dict(zip(columns, row)) for row in cursor.fetchall()]  # Format data
+            return JsonResponse(result, safe=False)  # Kembalikan data dalam format JSON
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)

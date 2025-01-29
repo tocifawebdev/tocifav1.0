@@ -1,19 +1,11 @@
 <script setup lang="ts">
-import { ref} from 'vue';
-// common components
+import { ref } from 'vue';
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
-import UiParentCardLogo from '@/components/shared/UiParentCardLogo.vue';
 import UiChildCard from '@/components/shared/UiChildCard.vue';
-import VeeValidation from '@/components/forms/form-validation/VeeValidation.vue'
-import MailValidation from '@/components/forms/form-validation/MailValidation.vue'
-import OnType from '@/components/forms/form-validation/OnType.vue'
-import Radio from '@/components/forms/form-validation/Radio.vue'
-import CheckBox from '@/components/forms/form-validation/CheckBox.vue'
-import SelectBox from '@/components/forms/form-validation/Select.vue'
-import { Form } from 'vee-validate';
-// theme breadcrumb
-const page = ref({ title: 'Form Validation' });
+import FormSO from "@/components/forms/form-layouts/FormSO.vue";
+
+const page = ref({ title: 'Form Request SO' });
 const breadcrumbs = ref([
     {
         text: 'Dashboard',
@@ -21,44 +13,20 @@ const breadcrumbs = ref([
         href: '#'
     },
     {
-        text: 'Form Validation',
+        text: 'Form Request SO',
         disabled: true,
         href: '#'
     }
 ]);
-</script>
 
+</script>
 <template>
    <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
    <v-row>
-        <v-col cols="12" lg="6" class="mb-0">
-            <UiParentCardLogo>
-                <VeeValidation/>
-            </UiParentCardLogo>           
+        <v-col cols="12">
+             <UiParentCard title="Form Request SO" class="mt-6">
+                <FormSO/>
+             </UiParentCard>
         </v-col>
-        <v-col cols="12" lg="6" class="mb-0">
-            <UiParentCardLogo>
-                <MailValidation/>
-            </UiParentCardLogo>   
-            <UiParentCard title="Select" class="mt-6">
-                <SelectBox/>
-            </UiParentCard>        
-        </v-col>
-        <v-col cols="12" lg="6" class="">
-            <UiParentCard title="On Leave">
-                <OnType/>
-            </UiParentCard>           
-        </v-col>
-        <v-col cols="12" lg="6" class="">
-            <UiParentCard title="Checkboxes">
-                <CheckBox/>
-            </UiParentCard>           
-        </v-col>
-        <v-col cols="12" lg="6" class="">
-            <UiParentCard title="Radio">
-                <Radio/>
-            </UiParentCard>           
-        </v-col>
-        
    </v-row>           
 </template>
